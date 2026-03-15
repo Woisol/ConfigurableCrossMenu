@@ -5,7 +5,7 @@ interface CenterConfig {
   // 方式1：预设图标 + 文字
   icon?: string;
   title?: string;
-  size?: CSSSize;
+  titleSize?: CSSSize;
   color?: string;
 }
 
@@ -19,6 +19,8 @@ type CenterStyle =
   | (CenterConfig & { render?: never })
   | CenterCustom;
 
+type MenuStyle = {}
+
 type MenuItem = {
   direction: MenuDirection,
   label: string,
@@ -30,14 +32,15 @@ type MenuItem = {
   url?: never
 });
 
-export interface ConfigableCrossMenuConfig {
-  container: HTMLElement,  // 菜单挂载的容器
-  directions: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,  // 1-8.
+export interface CCMConfig {
+  container: string,  // 菜单挂载的容器
+  startingDirections: MenuDirection,
   style: {
     width: CSSSize,
     radius: CSSSize,
     background: {
-      color?: string,   // will be override by center or menu
+      menuColor?: string,
+      centerColor?: string,
       opacity?: number
       blur?: number,
     }
@@ -48,5 +51,42 @@ export interface ConfigableCrossMenuConfig {
     }
   }
   items: MenuItem[],
-  keyBindings?: Partial<Record<MenuDirection, string>>
+  keyBindings: Partial<Record<MenuDirection, string>>
+}
+
+
+function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings: boolean, useTemplateItems: boolean): CCMConfig {
+  const _config = {
+    container: "#ccm-con",
+    startingDirections: 'up',
+    style: {
+      width: 200,
+      radius: 50,
+      background: {
+        menuColor: 'hsl(0, 0%, 93%)',
+        centerColor: 'hsl(0, 0%, 100%)',
+        opacity: 0.8,
+        blur: 10,
+      },
+      center: {
+        title: 'CCM',
+        titleSize: 16,
+        color: 'hsl(0, 0%, 20%)',
+      },
+      menu: {
+        length: 100,
+        color: 'hsl(0, 0%, 20%)',
+      }
+    },
+    items: [],
+    keyBindings: useDefaultKeyBindings ? {
+      up: 'w',
+      right: 'd',
+      down: 's',
+      left: 'a',
+    } : {}
+  } as CCMConfig;
+
+  config = { ..._config, ...config };
+  return config as CCMConfig;
 }
