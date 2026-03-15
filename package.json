@@ -1,0 +1,24 @@
+{
+  "name": "ConfigableCrossMenu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/configable-cross-menu.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm run build:types && pnpm run build:bundle",
+    "build:bundle": "webpack",
+    "build:types": "tsc --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
+    "dev": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.0"
+  }
+}
