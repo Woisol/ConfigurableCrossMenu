@@ -90,3 +90,5 @@ function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings: boo
   config = { ..._config, ...config };
   return config as CCMConfig;
 }
+
+export { CCMConfigBuilder };
