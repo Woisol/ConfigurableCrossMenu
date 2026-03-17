@@ -1,0 +1,13 @@
+.ccm-center
+  if render
+    // 自定义渲染的内容会通过 JS 插入
+  else if title || icon
+    if icon
+      img(src=icon alt="icon")
+    if title
+      div(class={direction})
+        h3 = title
+        if subtitle
+          p = subtitle
+
+      //- .ccm-center-title(style=`font-size: ${titleSize || 16}px; color: ${color || '#000'}`; )= title

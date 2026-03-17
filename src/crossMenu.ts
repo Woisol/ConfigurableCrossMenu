@@ -49,7 +49,7 @@ export class CCM {
    * 渲染中心元素
    */
   renderCenter(): void {
-    const centerHtml = pug.renderFile('/template/center.pug', {})
+    const centerHtml = pug.renderFile('/templates/center.pug', {})
     document.querySelector(this.config.container)?.insertAdjacentHTML('beforeend', centerHtml);
   }
 
@@ -57,7 +57,7 @@ export class CCM {
    * 渲染菜单项
    */
   renderMenuItems(): void {
-    const pugMenuFunc = pug.compileFile('/template/menuItem.pug');
+    const pugMenuFunc = pug.compileFile('/templates/menuItem.pug');
     this.items.forEach(item => {
       pugMenuFunc(item);
     })
