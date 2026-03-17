@@ -113,7 +113,10 @@
   </div>
 
   <script>
-    (() => {
+    // 不对，为什么要用 IIFE 包裹？直接放在外面不行吗？因为要等 DOM 加载完成，或者说等元素存在了再绑定事件，不然 document.getElementById('ccm-con') 就拿不到元素了。
+    // woc，加 defer 无法解决
+    // (() => {
+    document.addEventListener('DOMContentLoaded', () => {
       const ccm = document.getElementById('ccm-con');
       if (!ccm) return;
 
@@ -142,7 +145,11 @@
       // 据说如果只是简单变量读写浏览器已经做了优化可以不加 requestAnimationFrame
       ccm.addEventListener('pointermove', update, { passive: true });
       ccm.addEventListener('pointerleave', reset, { passive: true });
-    })();
+    });
+    // })();
+  </script>
+
+  <script>
   </script>
 
   <!-- <script defer>

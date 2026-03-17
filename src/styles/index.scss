@@ -1,4 +1,6 @@
-@import './animation.scss';
+@use 'animation' as *;
+@use 'ccm-center' as center;
+@use 'ccm-items' as items;
 
 .ccm-con {
   --ccm-parallax-x: 0px;
@@ -22,7 +24,13 @@
     flex-direction: row;
   }
 
-  @import './ccm-center.scss';
-  @import './ccm-items.scss';
+  .ccm-center {
+    // 别问问就是报错要加上 !optional
+    @extend center !optional;
+  }
+
+  .ccm-items {
+    @extend items !optional;
+  }
 
 }

@@ -1,0 +1,117 @@
+// 菜单容器
+.ccm-container {
+  position: relative;
+  width: var(--ccm-width, 200px);
+  height: var(--ccm-width, 200px);
+  border-radius: var(--ccm-radius, 50%);
+  overflow: hidden;
+
+  // 背景层
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--ccm-bg-color, rgba(255, 255, 255, 0.9));
+    backdrop-filter: blur(var(--ccm-bg-blur, 10px));
+    z-index: -1;
+  }
+}
+
+// 中心装饰
+.ccm-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ccm-center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ccm-center-icon {
+  font-size: 32px;
+}
+
+.ccm-center-title {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+// 菜单项容器
+.ccm-menu {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+// 单个菜单项
+.ccm-menu-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% + var(--x, 0)),
+      calc(-50% + var(--y, 0)));
+
+  // 动画
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+
+  // 悬停效果
+  &:hover {
+    transform: translate(calc(-50% + var(--x, 0)),
+        calc(-50% + var(--y, 0))) scale(1.1);
+    filter: brightness(1.1);
+  }
+
+  // 选中状态
+  &.active {
+    transform: translate(calc(-50% + var(--x, 0)),
+        calc(-50% + var(--y, 0))) scale(1.15);
+    filter: brightness(1.2);
+  }
+}
+
+.ccm-menu-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: var(--ccm-menu-color, hsl(0, 0%, 93%));
+  color: var(--ccm-menu-text-color, hsl(0, 0%, 20%));
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ccm-menu-item-label {
+  display: block;
+}
+
+// 方向特定样式（可选，用于更精细的布局调整）
+.ccm-menu-item--up {
+  // 向上的菜单项可能需要特殊处理
+}
+
+.ccm-menu-item--right {
+  // 向右的菜单项
+}
+
+.ccm-menu-item--down {
+  // 向下的菜单项
+}
+
+.ccm-menu-item--left {
+  // 向左的菜单项
+}
