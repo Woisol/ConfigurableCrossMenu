@@ -82,7 +82,7 @@ const defaultConfig = {
     menu: {
       length: 100,
 
-      color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' },
+      color: { light: 'hsl(0, 0%, 40%)', dark: 'hsl(0, 0%, 60%)' },
       radius: 8,
     }
   },

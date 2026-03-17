@@ -37,6 +37,10 @@
     .info p {
       margin: 5px 0;
     }
+
+    .dark .info {
+      color: #aaa
+    }
   </style>
   <link rel="stylesheet" href="./dist/configable-cross-menu.css">
   <!-- <script src="./dist/configable-cross-menu.js" defer></script> -->
@@ -59,7 +63,7 @@
       --ccm-center-border-color: hsl(0, 0%, 80%);
       --ccm-center-radius: 20px;
       --ccm-menu-length: 100px;
-      --ccm-menu-color: hsl(0, 0%, 20%);
+      --ccm-menu-color: hsl(0, 0%, 40%);
       --ccm-menu-radius: 8px;
     }
 
@@ -69,13 +73,13 @@
       --ccm-center-title-color: hsl(0, 0%, 90%);
       --ccm-center-subtitle-color: hsl(0, 0%, 80%);
       --ccm-center-border-color: hsl(0, 0%, 50%);
-      --ccm-menu-color: hsl(0, 0%, 90%);
+      --ccm-menu-color: hsl(0, 0%, 60%);
       color: hsl(0, 0%, 90%);
     }
   </style>
 </head>
 
-<body class="dark.not">
+<body class="dark .not">
   <div id="ccm-con" class="ccm-con row">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
     <button class="ccm-items up" onclick="alert('home')"
@@ -126,22 +130,28 @@
     // woc，加 defer 无法解决
     // (() => {
     document.addEventListener('DOMContentLoaded', () => {
+      const parallaxCon = document.body;
       const ccm = document.getElementById('ccm-con');
-      if (!ccm) return;
+      if (!parallaxCon || !ccm) return;
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
       if (reduceMotion || !canHover) return;
 
-      const update = (event) => {
-        const rect = ccm.getBoundingClientRect();
-        const nx = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-        const ny = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      let latestPointerEvent = null;
+      let ticking = false;
 
-        ccm.style.setProperty('--ccm-parallax-x', `${(nx * 24).toFixed(2)}px`);
-        ccm.style.setProperty('--ccm-parallax-y', `${(ny * 24).toFixed(2)}px`);
-        ccm.style.setProperty('--ccm-tilt-x', `${(nx * 5).toFixed(2)}deg`);
-        ccm.style.setProperty('--ccm-tilt-y', `${(-ny * 4).toFixed(2)}deg`);
+      const update = () => {
+        if (!latestPointerEvent) return;
+
+        const rect = parallaxCon.getBoundingClientRect();
+        const nx = ((latestPointerEvent.clientX - rect.left) / rect.width - 0.5) * 2;
+        const ny = ((latestPointerEvent.clientY - rect.top) / rect.height - 0.5) * 2;
+
+        ccm.style.setProperty('--ccm-parallax-x', `${(nx * 80).toFixed(2)}px`);
+        ccm.style.setProperty('--ccm-parallax-y', `${(ny * 80).toFixed(2)}px`);
+        ccm.style.setProperty('--ccm-tilt-x', `${(nx * 25).toFixed(2)}deg`);
+        ccm.style.setProperty('--ccm-tilt-y', `${(-ny * 20).toFixed(2)}deg`);
       };
 
       const reset = () => {
@@ -151,9 +161,26 @@
         ccm.style.setProperty('--ccm-tilt-y', '0deg');
       };
 
+      const onPointerMove = (event) => {
+        latestPointerEvent = event;
+        if (ticking) return;
+
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      };
+
+      const onPointerLeave = () => {
+        latestPointerEvent = null;
+        requestAnimationFrame(reset);
+      };
+
       // 据说如果只是简单变量读写浏览器已经做了优化可以不加 requestAnimationFrame
-      ccm.addEventListener('pointermove', update, { passive: true });
-      ccm.addEventListener('pointerleave', reset, { passive: true });
+      // 还是得加，不加动画抽搐
+      parallaxCon.addEventListener('pointermove', onPointerMove, { passive: true });
+      parallaxCon.addEventListener('pointerleave', onPointerLeave, { passive: true });
     });
     // })();
   </script>
@@ -297,9 +324,6 @@
       }
     }
 
-    function ccmHandlePressDown() {
-
-    }
   </script>
 
   <!-- <script defer>
