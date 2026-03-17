@@ -11,7 +11,7 @@
       padding: 0;
       box-sizing: border-box;
     }
-  
+
     body {
       display: flex;
       align-items: center;
@@ -20,7 +20,7 @@
       background: #eee;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
     }
-  
+
     .info {
       position: fixed;
       bottom: 20px;
@@ -29,7 +29,7 @@
       font-size: 14px;
       opacity: 0.8;
     }
-  
+
     .info p {
       margin: 5px 0;
     }
@@ -40,8 +40,8 @@
     :root {
       --ccm-width: 200px;
       --ccm-radius: 20px;
-      --ccm-bg-menuColor: hsl(0, 0%, 93%);
-      --ccm-bg-centerColor: hsl(0, 0%, 100%);
+      --ccm-bg-menu-color: hsl(0, 0%, 93%);
+      --ccm-bg-center-color: hsl(0, 0%, 100%);
       --ccm-bg-opacity: 0.8;
       --ccm-bg-blur: 10px;
       /* icon 不存在时设置 0px */
@@ -67,12 +67,13 @@
         <p>Configurable Cross Menu</p>
       </div>
     </div>
-    <button class="ccm-items">home</button>
+    <!-- deg 也必须设置否则后续的 transform 不生效 -->
+    <button class="ccm-items" style="--ccm-item-deg: 0deg;--ccm-item-x: 10px; --ccm-item-y: 10px;">home</button>
     <button class="ccm-items">about</button>
     <button class="ccm-items">contact</button>
     <button class="ccm-items">settings</button>
   </div>
-  
+
   <div class="info">
     <p>🎮 Controls:</p>
     <p>Click on menu items or use:</p>
@@ -81,17 +82,17 @@
     <p><kbd>S</kbd> / <kbd>Down</kbd> - Down</p>
     <p><kbd>A</kbd> / <kbd>Left</kbd> - Left</p>
   </div>
-  
+
   <!-- <script defer>
                                                                   // 动态导入并初始化
-  
+
                                                                   import('./dist/configable-cross-menu.js').then(() => {
                                                                     const { CCM } = globalThis.ConfigableCrossMenu || {};
-  
+
                                                                     if (!CCM) {
                                                                       throw new Error('CCM is not available on globalThis.ConfigableCrossMenu');
                                                                     }
-  
+
                                                           const ccm = new CCM({
                                                           container: '#ccm-con',
                                                           style: {

@@ -5,6 +5,8 @@
   display: flex;
   place-items: center;
   flex-direction: column;
+  opacity: var(--ccm-center-opacity, 1);
+  backdrop-filter: blur(var(--ccm-center-blur, 0px));
 
   &.row {
     flex-direction: row;
@@ -13,8 +15,10 @@
   .ccm-center {
 
     padding: 12px 20px;
+    // padding: min(calc(var(--ccm-radius) - 8), 12px) 20px;
     border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
     border-radius: var(--ccm-radius, 10px);
+    background-color: var(--ccm-bg-center-color, hsl(0, 0%, 100%));
 
     img,
     h3,
@@ -40,10 +44,19 @@
     }
   }
 
-  // position: fixed;
-  // inset: 0;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // pointer-events: none; // 默认不响应事件，显示时再启用
+    .ccm-items {
+      min-width: var(--ccm-menu-length, 300px);
+      padding: 8px 16px;
+      background-color: var(--ccm-bg-menu-color, hsl(0, 0%, 93%));
+      border: none;
+      border-radius: var(--ccm-radius, 10px);
+      position: absolute;
+      transform: rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(var(--ccm-item-y));
+  
+      &:hover,
+      &:focus,
+      &:active {
+        backdrop-filter: brightness(0.9);
+      }
+    }
 }
