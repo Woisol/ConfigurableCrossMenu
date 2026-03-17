@@ -6,7 +6,7 @@ interface CenterConfig {
   icon?: { url: string; size?: CSSSize };
   title?: { content: string; size?: CSSSize, color?: string };
   subtitle?: { content: string; size?: CSSSize, color?: string };
-  style?: { direction?: 'column' | 'row', borderSize?: CSSSize }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
+  style?: { direction?: 'column' | 'row', borderSize?: CSSSize, radius?: CSSSize }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
 }
 
 interface CenterCustom {
@@ -24,6 +24,7 @@ type MenuStyle = {}
 export type MenuItem = {
   direction: MenuDirection,
   label: string,
+  size?: CSSSize,
 } & ({
   url?: string
   action?: never
@@ -37,7 +38,7 @@ export interface CCMConfig {
   startingDirections: MenuDirection,
   style: {
     width: CSSSize,   // ？这是干啥的？弃用？
-    radius: CSSSize,
+    // radius: CSSSize,
     background: {
       menuColor?: string,
       centerColor?: string,
@@ -48,6 +49,7 @@ export interface CCMConfig {
     menu: {
       length: CSSSize,  // 菜单长度
       color?: string,
+      radius?: CSSSize,
     }
   }
   // items: MenuItem[],
@@ -71,11 +73,13 @@ const defaultConfig = {
     center: {
       title: { content: 'CCM', size: 16 },
       subtitle: { content: 'Configurable Cross Menu', size: 12, color: 'hsl(0, 0%, 50%)' },
-      style: { direction: 'column', borderSize: 2, borderColor: 'hsl(0, 0%, 80%)' },
+      style: { direction: 'column', borderSize: 2, borderColor: 'hsl(0, 0%, 80%)', radius: 20 },
     },
     menu: {
       length: 100,
+
       color: 'hsl(0, 0%, 20%)',
+      radius: 8,
     }
   },
   // items: [],

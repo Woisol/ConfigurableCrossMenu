@@ -39,7 +39,7 @@
   <style>
     :root {
       --ccm-width: 200px;
-      --ccm-radius: 20px;
+      /* --ccm-radius: 20px; */
       --ccm-bg-menu-color: hsl(0, 0%, 93%);
       --ccm-bg-center-color: hsl(0, 0%, 100%);
       --ccm-bg-opacity: 0.8;
@@ -52,14 +52,27 @@
       --ccm-center-subtitle-color: hsl(0, 0%, 50%);
       --ccm-center-border-size: 2px;
       --ccm-center-border-color: hsl(0, 0%, 80%);
+      --ccm-center-radius: 20px;
       --ccm-menu-length: 100;
       --ccm-menu-color: hsl(0, 0%, 20%);
+      --ccm-menu-radius: 8px;
     }
   </style>
 </head>
 
 <body>
   <div id="ccm-con" class="ccm-con row">
+    <!-- deg 也必须设置否则后续的 transform 不生效 -->
+    <button class="ccm-items text-vertical"
+      style="--ccm-items-size: 16px;--ccm-item-deg: 30deg;--ccm-item-x: 10px; --ccm-item-y: -70px;">
+      家 home
+    </button>
+    <button class="ccm-items text-vertical"
+      style="--ccm-items-size: 16px;--ccm-item-deg: -30deg;--ccm-item-x: -10px; --ccm-item-y: -70px;">关于 about</button>
+    <!-- <button class="ccm-items text-verticala"
+          style="--ccm-items-size: 16px;--ccm-item-deg: 90deg;--ccm-item-x: 0px; --ccm-item-y: -70px;">联系
+          contact</button> -->
+    <!-- <button class="ccm-items">设置 settings</button> -->
     <div class="ccm-center">
       <img src="" alt="">
       <div class="col">
@@ -67,11 +80,6 @@
         <p>Configurable Cross Menu</p>
       </div>
     </div>
-    <!-- deg 也必须设置否则后续的 transform 不生效 -->
-    <button class="ccm-items" style="--ccm-item-deg: 0deg;--ccm-item-x: 10px; --ccm-item-y: 10px;">home</button>
-    <button class="ccm-items">about</button>
-    <button class="ccm-items">contact</button>
-    <button class="ccm-items">settings</button>
   </div>
 
   <div class="info">
@@ -84,51 +92,51 @@
   </div>
 
   <!-- <script defer>
-                                                                  // 动态导入并初始化
+    // 动态导入并初始化
 
-                                                                  import('./dist/configable-cross-menu.js').then(() => {
-                                                                    const { CCM } = globalThis.ConfigableCrossMenu || {};
+    import('./dist/configable-cross-menu.js').then(() => {
+    const { CCM } = globalThis.ConfigableCrossMenu || {};
 
-                                                                    if (!CCM) {
-                                                                      throw new Error('CCM is not available on globalThis.ConfigableCrossMenu');
-                                                                    }
+      if (!CCM) {
+      throw new Error('CCM is not available on globalThis.ConfigableCrossMenu');
+      }
 
-                                                          const ccm = new CCM({
-                                                          container: '#ccm-con',
-                                                          style: {
-                                                          width: '300px',
-                                                          radius: '150px',
-                                                          background: {
-                                                          centerColor: 'rgba(255, 255, 255, 0.95)',
-                                                          menuColor: 'rgba(102, 126, 234, 0.9)',
-                                                          opacity: 0.95,
-                                                          blur: 15
-                                                          },
-                                                          center: {
-                                                          title: '✨ CCM',
-                                                          titleSize: 24,
-                                                          color: '#667eea'
-                                                          },
-                                                          menu: {
-                                                          length: 120,
-                                                          color: '#667eea'
-                                                          }
-                                                          },
-                                                          items: [
-                                                          { direction: 'up', label: 'Home', url: '#home' },
-                                                          // { direction: 'up', label: 'Top', action: () => console.log('Top') },
-                                                          { direction: 'right', label: 'About', url: '#about' },
-                                                          { direction: 'right', label: 'Profile', action: () => console.log('Profile') },
-                                                          { direction: 'down', label: 'Contact', url: '#contact' },
-                                                          { direction: 'down', label: 'Help', action: () => console.log('Help') },
-                                                          { direction: 'left', label: 'Settings', url: '#settings' },
-                                                          { direction: 'left', label: 'Config', action: () => console.log('Config') }
-                                                          ]
-                                                          }, true);
+      const ccm = new CCM({
+      container: '#ccm-con',
+      style: {
+      width: '300px',
+      radius: '150px',
+      background: {
+      centerColor: 'rgba(255, 255, 255, 0.95)',
+      menuColor: 'rgba(102, 126, 234, 0.9)',
+      opacity: 0.95,
+      blur: 15
+      },
+      center: {
+      title: '✨ CCM',
+      titleSize: 24,
+      color: '#667eea'
+      },
+      menu: {
+      length: 120,
+      color: '#667eea'
+      }
+      },
+      items: [
+      { direction: 'up', label: 'Home', url: '#home' },
+      // { direction: 'up', label: 'Top', action: () => console.log('Top') },
+      { direction: 'right', label: 'About', url: '#about' },
+      { direction: 'right', label: 'Profile', action: () => console.log('Profile') },
+      { direction: 'down', label: 'Contact', url: '#contact' },
+      { direction: 'down', label: 'Help', action: () => console.log('Help') },
+      { direction: 'left', label: 'Settings', url: '#settings' },
+      { direction: 'left', label: 'Config', action: () => console.log('Config') }
+      ]
+      }, true);
 
-        ccm.render();
-        });
-        </script> -->
+      ccm.render();
+      });
+      </script> -->
 </body>
 
 </html>
