@@ -35,7 +35,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
+    // scss 导入报错与此无关
+    // "skipLibCheck": true,
   },
   "include": [
     "src/**/*.ts",
