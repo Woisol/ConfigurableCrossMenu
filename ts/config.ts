@@ -26,7 +26,8 @@ export type MenuItem = {
   direction: MenuDirection,
   label: string,
   size?: CSSSize,
-  offset?: CSSSize, // 菜单项相对于中心的偏移距离
+  bgColor?: CSSColor,
+  offset?: CSSSize, // 菜单项相对于中心的偏移距离，有时候可能需要手动调整
 } & ({
   url?: string
   action?: never
