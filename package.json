@@ -16,9 +16,18 @@
   "license": "ISC",
   "packageManager": "pnpm@10.7.0",
   "devDependencies": {
+    "@types/pug": "^2.0.10",
+    "css-loader": "^7.1.4",
+    "mini-css-extract-plugin": "^2.10.1",
+    "pug-loader": "^2.4.0",
+    "sass": "^1.98.0",
+    "sass-loader": "^16.0.7",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.0"
+  },
+  "dependencies": {
+    "pug": "^3.0.4"
   }
 }

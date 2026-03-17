@@ -37,6 +37,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
   },
-  "include": ["ts/**/*.ts"],
+  "include": [
+    "ts/**/*.ts",
+    "ts/CrossMenu.ts.bak"
+  ],
   "exclude": ["dist", "node_modules"]
 }

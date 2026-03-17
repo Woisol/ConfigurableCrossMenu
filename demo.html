@@ -4,12 +4,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="./dist/configable-cross-menu.js" defer></script>
+  <title>ConfigableCrossMenu Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100svh;
+      background: #eee;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+    }
+  
+    .info {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      color: #333;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  
+    .info p {
+      margin: 5px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="./dist/configable-cross-menu.css">
+  <!-- <script src="./dist/configable-cross-menu.js" defer></script> -->
+  <style>
+    :root {
+      --ccm-width: 200px;
+      --ccm-radius: 20px;
+      --ccm-bg-menuColor: hsl(0, 0%, 93%);
+      --ccm-bg-centerColor: hsl(0, 0%, 100%);
+      --ccm-bg-opacity: 0.8;
+      --ccm-bg-blur: 10px;
+      /* icon 不存在时设置 0px */
+      --ccm-center-icon-size: 0px;
+      /* 直接设置数字给 css 并不能生效……js 里手动加上 px 吧 */
+      --ccm-center-title-size: 30px;
+      --ccm-center-subtitle-size: 15px;
+      --ccm-center-subtitle-color: hsl(0, 0%, 50%);
+      --ccm-center-border-size: 2px;
+      --ccm-center-border-color: hsl(0, 0%, 80%);
+      --ccm-menu-length: 100;
+      --ccm-menu-color: hsl(0, 0%, 20%);
+    }
+  </style>
 </head>
 
 <body>
+  <div id="ccm-con" class="ccm-con row">
+    <div class="ccm-center">
+      <img src="" alt="">
+      <div class="col">
+        <h3>CCM</h3>
+        <p>Configurable Cross Menu</p>
+      </div>
+    </div>
+    <button class="ccm-items">home</button>
+    <button class="ccm-items">about</button>
+    <button class="ccm-items">contact</button>
+    <button class="ccm-items">settings</button>
+  </div>
+  
+  <div class="info">
+    <p>🎮 Controls:</p>
+    <p>Click on menu items or use:</p>
+    <p><kbd>W</kbd> / <kbd>Up</kbd> - Up</p>
+    <p><kbd>D</kbd> / <kbd>Right</kbd> - Right</p>
+    <p><kbd>S</kbd> / <kbd>Down</kbd> - Down</p>
+    <p><kbd>A</kbd> / <kbd>Left</kbd> - Left</p>
+  </div>
+  
+  <!-- <script defer>
+                                                                  // 动态导入并初始化
+  
+                                                                  import('./dist/configable-cross-menu.js').then(() => {
+                                                                    const { CCM } = globalThis.ConfigableCrossMenu || {};
+  
+                                                                    if (!CCM) {
+                                                                      throw new Error('CCM is not available on globalThis.ConfigableCrossMenu');
+                                                                    }
+  
+                                                          const ccm = new CCM({
+                                                          container: '#ccm-con',
+                                                          style: {
+                                                          width: '300px',
+                                                          radius: '150px',
+                                                          background: {
+                                                          centerColor: 'rgba(255, 255, 255, 0.95)',
+                                                          menuColor: 'rgba(102, 126, 234, 0.9)',
+                                                          opacity: 0.95,
+                                                          blur: 15
+                                                          },
+                                                          center: {
+                                                          title: '✨ CCM',
+                                                          titleSize: 24,
+                                                          color: '#667eea'
+                                                          },
+                                                          menu: {
+                                                          length: 120,
+                                                          color: '#667eea'
+                                                          }
+                                                          },
+                                                          items: [
+                                                          { direction: 'up', label: 'Home', url: '#home' },
+                                                          // { direction: 'up', label: 'Top', action: () => console.log('Top') },
+                                                          { direction: 'right', label: 'About', url: '#about' },
+                                                          { direction: 'right', label: 'Profile', action: () => console.log('Profile') },
+                                                          { direction: 'down', label: 'Contact', url: '#contact' },
+                                                          { direction: 'down', label: 'Help', action: () => console.log('Help') },
+                                                          { direction: 'left', label: 'Settings', url: '#settings' },
+                                                          { direction: 'left', label: 'Config', action: () => console.log('Config') }
+                                                          ]
+                                                          }, true);
 
+        ccm.render();
+        });
+        </script> -->
 </body>
 
 </html>

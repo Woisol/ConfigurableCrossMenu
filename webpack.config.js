@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './ts/index.ts',
@@ -12,10 +13,10 @@ module.exports = {
       name: 'ConfigableCrossMenu',
       type: 'umd',
     },
-    globalObject: 'this',
+    globalObject: 'globalThis',
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js', '.scss', '.pug'],
   },
   module: {
     rules: [
@@ -24,6 +25,23 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.pug$/,
+        use: 'pug-loader'
+      }
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'configable-cross-menu.css'
+    })
+  ]
 };

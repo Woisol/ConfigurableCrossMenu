@@ -1,0 +1,49 @@
+.ccm-con {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  place-items: center;
+  flex-direction: column;
+
+  &.row {
+    flex-direction: row;
+  }
+
+  .ccm-center {
+
+    padding: 12px 20px;
+    border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
+    border-radius: var(--ccm-radius, 10px);
+
+    img,
+    h3,
+    p {
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    img {
+      display: block;
+      width: var(--ccm-center-icon-size, 32px);
+      height: var(--ccm-center-icon-size, 32px);
+    }
+
+    h3 {
+      font-size: var(--ccm-center-title-size, 16px);
+      color: var(--ccm-center-title-color, #333);
+    }
+
+    p {
+      font-size: var(--ccm-center-subtitle-size, 12px);
+      color: var(--ccm-center-subtitle-color, #666);
+    }
+  }
+
+  // position: fixed;
+  // inset: 0;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // pointer-events: none; // 默认不响应事件，显示时再启用
+}

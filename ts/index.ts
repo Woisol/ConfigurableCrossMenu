@@ -1,43 +1,43 @@
-import pug from 'pug'
+import { CCMConfigBuilder, type CCMConfig, type MenuItem } from './config';
+import './styles/ccm.scss'
 
-import { CCMConfigBuilder, type CCMConfig } from './config';
-
+/**
+ * 配置化十字菜单库
+ *
+ * 使用方式：
+ * const ccm = new CCM({ ... });
+ * ccm.render();
+ */
 export class CCM {
   private _config: CCMConfig;
+  // private crossMenu: CrossMenu | null = null;
+
   get config(): CCMConfig {
     return this._config;
   }
+
   set config(config: Partial<CCMConfig>) {
     this._config = { ...this._config, ...config };
   }
 
-  constructor(config: Partial<CCMConfig>, useDefaultKeyBindings: boolean, useTemplateItems: boolean) {
-    this._config = CCMConfigBuilder(config, useDefaultKeyBindings, useTemplateItems);
+  constructor(
+    config: Partial<CCMConfig>,
+    useDefaultKeyBindings: boolean = true,
+  ) {
+    this._config = CCMConfigBuilder(config, useDefaultKeyBindings);
   }
 
-  render(items?: CCMConfig['items'], container?: string) {
-    if (container)
-      this.config.container = container;
-
-    if (items)
-      this.config.items = items;
-
-
-
+  /**
+   * 渲染菜单
+   */
+  render(items?: MenuItem[], container?: string): void {
   }
 
-  private _renderCenter() {
-    pug.renderFile('ts/templates/center.pug', {
-      title: this.config.style.center.title,
-      titleSize: this.config.style.center.titleSize,
-      color: this.config.style.center.color,
-    })
+  /**
+   * 销毁菜单
+   */
+  destroy(): void {
   }
-
-  private _renderItems() {
-
-  }
-
 }
 
 export type { CCMConfig };
