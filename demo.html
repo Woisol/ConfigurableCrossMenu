@@ -67,7 +67,7 @@
       --ccm-bg-menu-color: hsl(0, 0%, 30%);
       --ccm-bg-center-color: hsl(0, 0%, 50%);
       --ccm-center-title-color: hsl(0, 0%, 90%);
-      --ccm-center-subtitle-color: hsl(0, 0%, 80%, 0);
+      --ccm-center-subtitle-color: hsl(0, 0%, 80%);
       --ccm-center-border-color: hsl(0, 0%, 50%);
       --ccm-menu-color: hsl(0, 0%, 90%);
       color: hsl(0, 0%, 90%);
@@ -75,23 +75,24 @@
   </style>
 </head>
 
-<body class="dar">
+<body class="dark.not">
   <div id="ccm-con" class="ccm-con row">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
     <button class="ccm-items text-up"
-      style="--ccm-item-size: 16px; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 10px; --ccm-item-offset: 20px; --ccm-item-hover-offset: 28px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
+      style="--ccm-item-size: 25px; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 10px; --ccm-item-offset: 20px; --ccm-item-hover-offset: 28px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
+      <!-- 但是设置了背景又对深色支持不好…… -->
       <span>家 home</span>
     </button>
     <button class="ccm-items text-up"
-      style="--ccm-item-size: 16px;--ccm-item-deg: -30deg;--ccm-item-x: -10px; --ccm-item-offset: 20px;">关于</button>
+      style="--ccm-item-size: 25px;--ccm-item-deg: -30deg;--ccm-item-x: -10px; --ccm-item-offset: 20px;">关于</button>
     <button class="ccm-items text-right"
-      style="--ccm-item-size: 16px;--ccm-item-deg: 90deg;--ccm-item-x: 0px; --ccm-item-offset: 50px; --ccm-item-offset: 70px; --ccm-item-hover-offset: 40px;">
+      style="--ccm-item-size: 25px;--ccm-item-deg: 90deg;--ccm-item-x: 0px; --ccm-item-offset: 50px; --ccm-item-offset: 70px; --ccm-item-hover-offset: 40px;">
       联系 contact</button>
     <button class="ccm-items text-down"
-      style="--ccm-item-size: 16px;--ccm-item-deg: 0deg;--ccm-item-x: 0px; --ccm-item-offset: 20px; --ccm-item-hover-offset: 28px;">设置
+      style="--ccm-item-size: 25px;--ccm-item-deg: 0deg;--ccm-item-x: 0px; --ccm-item-offset: 20px; --ccm-item-hover-offset: 28px;">设置
       settings</button>
     <button class="ccm-items text-left"
-      style="--ccm-item-size: 16px;--ccm-item-deg: 270deg;--ccm-item-x: 0px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 28px;">111
+      style="--ccm-item-size: 25px;--ccm-item-deg: 270deg;--ccm-item-x: 0px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 16px;">111
     </button>
     <div class="ccm-center">
       <img src="" alt="">
@@ -110,6 +111,39 @@
     <p><kbd>S</kbd> / <kbd>Down</kbd> - Down</p>
     <p><kbd>A</kbd> / <kbd>Left</kbd> - Left</p>
   </div>
+
+  <script>
+    (() => {
+      const ccm = document.getElementById('ccm-con');
+      if (!ccm) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (reduceMotion || !canHover) return;
+
+      const update = (event) => {
+        const rect = ccm.getBoundingClientRect();
+        const nx = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+        const ny = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+
+        ccm.style.setProperty('--ccm-parallax-x', `${(nx * 24).toFixed(2)}px`);
+        ccm.style.setProperty('--ccm-parallax-y', `${(ny * 24).toFixed(2)}px`);
+        ccm.style.setProperty('--ccm-tilt-x', `${(nx * 5).toFixed(2)}deg`);
+        ccm.style.setProperty('--ccm-tilt-y', `${(-ny * 4).toFixed(2)}deg`);
+      };
+
+      const reset = () => {
+        ccm.style.setProperty('--ccm-parallax-x', '0px');
+        ccm.style.setProperty('--ccm-parallax-y', '0px');
+        ccm.style.setProperty('--ccm-tilt-x', '0deg');
+        ccm.style.setProperty('--ccm-tilt-y', '0deg');
+      };
+
+      // 据说如果只是简单变量读写浏览器已经做了优化可以不加 requestAnimationFrame
+      ccm.addEventListener('pointermove', update, { passive: true });
+      ccm.addEventListener('pointerleave', reset, { passive: true });
+    })();
+  </script>
 
   <!-- <script defer>
     // 动态导入并初始化
