@@ -1,0 +1,58 @@
+  .ccm-items {
+    --ccm-item-y: calc(var(--ccm-item-offset, 0px) + 50px);
+    --ccm-item-hover-shift: var(--ccm-item-hover-offset, 15px);
+    // --ccm-item-hover-shift: calc(var(--ccm-item-hover-offset, 0px) + 15px);
+    // --ccm-item-hover-shift: clamp(15px, 30%, 72px);
+    min-height: max(var(--ccm-menu-length, 0), 100px);
+    padding: 16px 8px;
+    background-color: var(--ccm-item-bg-color, var(--ccm-bg-menu-color, hsl(0, 0%, 93%)));
+    border: 0px solid transparent;
+    border-radius: var(--ccm-items-radius, 10px);
+    position: absolute;
+    left: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1));
+    transition: padding 0.3s ease,
+      filter 0.3s ease,
+      transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      border 0.3s ease;
+    color: var(--ccm-menu-color, hsl(0, 0%, 20%));
+    white-space: nowrap;
+    font-size: var(--ccm-item-size, 14px);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-align: center;
+    // 指明元素将要发生的变化，以便浏览器可以提前做好优化，提升动画性能。一般已经尽力优化作为最后手段，过多使用可能导致内存占用 https: //developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Properties/will-change
+    will-change: transform;
+
+    &.text-up {}
+
+    // haiku 4.5 都补不出来的属性😋
+    &.text-right {
+      writing-mode: sideways-lr;
+    }
+
+    &.text-left {
+      writing-mode: sideways-rl;
+    }
+
+    &.text-down {
+      transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(var(--ccm-item-y));
+      writing-mode: vertical-lr;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      filter: brightness(0.95);
+      padding: 20px 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1 - var(--ccm-item-hover-shift))) scale(1.08);
+      border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
+      z-index: 3;
+
+      &.text-down {
+        transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) + var(--ccm-item-hover-shift))) scale(1.08);
+      }
+    }
+  }

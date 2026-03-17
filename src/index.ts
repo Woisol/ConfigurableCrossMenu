@@ -1,5 +1,5 @@
 import { CCMConfigBuilder, type CCMConfig, type MenuItem } from './config';
-import './styles/ccm.scss'
+import './styles/index.scss'
 
 /**
  * 配置化十字菜单库

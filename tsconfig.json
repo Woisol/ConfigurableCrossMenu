@@ -2,7 +2,7 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "ts",
+    "rootDir": "src",
     "outDir": "./dist",
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -38,8 +38,11 @@
     "skipLibCheck": true,
   },
   "include": [
-    "ts/**/*.ts",
-    "ts/CrossMenu.ts.bak"
+    "src/**/*.ts",
+    "src/CrossMenu.ts.bak"
   ],
-  "exclude": ["dist", "node_modules"]
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

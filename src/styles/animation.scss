@@ -1,0 +1,48 @@
+@keyframes ccm-center-aurora {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.08);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
+  }
+}
+
+@keyframes ccm-center-sheen {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  55% {
+    transform: translateX(130%);
+  }
+
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccm-con {
+    transform: none;
+    transition: none;
+
+    .ccm-center {
+      transition: none;
+      transform: none;
+
+      &::before,
+      &::after {
+        animation: none;
+      }
+    }
+
+    // .ccm-items {
+    //   transition: none;
+    // }
+  }
+}

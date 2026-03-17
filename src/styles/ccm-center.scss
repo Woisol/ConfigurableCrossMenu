@@ -1,0 +1,72 @@
+.ccm-center {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 12px 20px;
+  // padding: min(calc(var(--ccm-center-radius) - 8), 12px) 20px;
+  border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
+  border-radius: var(--ccm-center-radius, 20px);
+  background-color: var(--ccm-bg-center-color, hsl(0, 0%, 100%));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: var(--ccm-bg-opacity, 1);
+  -webkit-backdrop-filter: blur(var(--ccm-bg-blur, 0px));
+  backdrop-filter: blur(var(--ccm-bg-blur, 0px));
+  transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0);
+  transition: transform 220ms ease-out, box-shadow 220ms ease-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 260%;
+    height: 260%;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 22% 32%, hsl(194 90% 68% / 0.45) 0%, transparent 45%),
+      radial-gradient(circle at 78% 72%, hsl(328 95% 68% / 0.35) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, hsl(42 95% 72% / 0.25) 0%, transparent 56%);
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+    animation: ccm-center-aurora 13s linear infinite;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.22;
+    background:
+      linear-gradient(115deg, transparent 22%, rgb(255 255 255 / 0.85) 49%, transparent 78%);
+    transform: translateX(-120%);
+    animation: ccm-center-sheen 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  img,
+  h3,
+  p {
+    // position: relative;
+    // z-index: 1;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  img {
+    display: block;
+    width: var(--ccm-center-icon-size, 32px);
+    height: var(--ccm-center-icon-size, 32px);
+  }
+
+  h3 {
+    font-size: var(--ccm-center-title-size, 16px);
+    color: var(--ccm-center-title-color, #333);
+  }
+
+  p {
+    font-size: var(--ccm-center-subtitle-size, 12px);
+    color: var(--ccm-center-subtitle-color, #666);
+  }
+}
