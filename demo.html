@@ -78,20 +78,20 @@
 <body class="dark.not">
   <div id="ccm-con" class="ccm-con row">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
-    <button class="ccm-items text-up"
+    <button class="ccm-items up"
       style="--ccm-item-size: 25px; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 10px; --ccm-item-offset: 20px; --ccm-item-hover-offset: 28px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
       <!-- 但是设置了背景又对深色支持不好…… -->
       <span>家 home</span>
     </button>
-    <button class="ccm-items text-up"
+    <button class="ccm-items up"
       style="--ccm-item-size: 25px;--ccm-item-deg: -30deg;--ccm-item-x: -10px; --ccm-item-offset: 20px;">关于</button>
-    <button class="ccm-items text-right"
+    <button class="ccm-items right"
       style="--ccm-item-size: 25px;--ccm-item-deg: 90deg;--ccm-item-x: 0px; --ccm-item-offset: 50px; --ccm-item-offset: 70px; --ccm-item-hover-offset: 40px;">
       联系 contact</button>
-    <button class="ccm-items text-down"
+    <button class="ccm-items down"
       style="--ccm-item-size: 25px;--ccm-item-deg: 0deg;--ccm-item-x: 0px; --ccm-item-offset: 20px; --ccm-item-hover-offset: 28px;">设置
       settings</button>
-    <button class="ccm-items text-left"
+    <button class="ccm-items left"
       style="--ccm-item-size: 25px;--ccm-item-deg: 270deg;--ccm-item-x: 0px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 18px;">111
     </button>
     <div class="ccm-center">
@@ -150,6 +150,116 @@
   </script>
 
   <script>
+    globalThis.ccmSelectAwaitingDirection = null;
+    globalThis.ccmSelectAwaitingTimer = null;
+    globalThis.ccmSelectAwaitDelayMS = 5000;
+
+    document.addEventListener('keypress', () => {
+      const key = event.key.toLowerCase();
+      const directions = ['up', 'right', 'down', 'left'];
+      const keyMap = {
+        w: 'up',
+        ArrowUp: 'up',
+        d: 'right',
+        ArrowRight: 'right',
+        s: 'down',
+        ArrowDown: 'down',
+        a: 'left',
+        ArrowLeft: 'left'
+      };
+
+      const direction = keyMap[key];
+      if (direction) {
+        switch (direction) {
+          case 'up':
+            _ccmHandlePress('up');
+            break;
+          case 'down':
+            _ccmHandlePress('down');
+            break;
+          case 'right':
+            _ccmHandlePress('right');
+            break;
+          case 'left':
+            _ccmHandlePress('left');
+            break;
+        }
+        // 其他方向的处理逻辑
+      }
+
+    })
+
+    /**
+     * 通用清理选择状态工具函数
+     */
+    function _ccmClearSelecting(delay) {
+      function _clear() {
+        const selectingItems = document.querySelectorAll(`.ccm-items.selecting`);
+        ccmSelectAwaitingDirection = null;
+        selectingItems.forEach(item => {
+          item.classList.remove('selecting');
+        })
+      }
+      if (ccmSelectAwaitingTimer) {
+        clearTimeout(ccmSelectAwaitingTimer);
+        ccmSelectAwaitingTimer = null;
+      }
+      if (delay) {
+        ccmSelectAwaitingTimer = setTimeout(_clear, delay === true ? ccmSelectAwaitDelayMS : delay);
+      } else {
+        _clear();
+      }
+    }
+    /**
+     * 按下事件通用处理
+     */
+    function _ccmHandlePress(direction) {
+      if (!direction) throw new Error('direction is required');
+
+      // 重复点击重置选择 timer
+      if (ccmSelectAwaitingDirection !== null) {
+        if (direction === ccmSelectAwaitingDirection) {
+          _ccmClearSelecting(true);
+          return;
+        } else {
+          _ccmClearSelecting();
+        }
+        // switch (ccmSelectAwaitingDirection) {
+        //   case 'up':
+        //     return;
+        //   case 'down':
+        //   case 'right':
+        //   case 'left':
+        //     // 其它则立刻收回
+        //     _ccmClearSelecting();
+        //     // 此时不 return，继续执行下面的选择逻辑
+        //     break;
+        // }
+        // return;
+      }
+
+
+      const menuItems = document.querySelectorAll(`.ccm-items.${direction}`);
+      if (!menuItems) {
+        return
+      }
+      menuItems.forEach(item => {
+        item.classList.add('selecting');
+      })
+      // 如果有多个 up 菜单项，进入选择状态，等待用户再次点击确认选择哪个菜单项
+      if (menuItems.length > 1) {
+        ccmSelectAwaitingDirection = direction;
+        _ccmClearSelecting(true);
+      } else {
+        // 只有一个 up 菜单项，直接触发点击
+        menuItems[0].click();
+        _ccmClearSelecting(1000);
+      }
+    }
+
+    function ccmHandlePressDown() {
+
+    }
   </script>
 
   <!-- <script defer>

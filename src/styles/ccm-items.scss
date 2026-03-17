@@ -25,22 +25,23 @@
     // 指明元素将要发生的变化，以便浏览器可以提前做好优化，提升动画性能。一般已经尽力优化作为最后手段，过多使用可能导致内存占用 https: //developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Properties/will-change
     will-change: transform;
 
-    &.text-up {}
+    &.up {}
 
     // haiku 4.5 都补不出来的属性😋
-    &.text-right {
+    &.right {
       writing-mode: sideways-lr;
     }
 
-    &.text-left {
+    &.left {
       writing-mode: sideways-rl;
     }
 
-    &.text-down {
+    &.down {
       transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(var(--ccm-item-y));
       writing-mode: vertical-lr;
     }
 
+    &.selecting,
     &:hover,
     &:focus,
     &:active {
@@ -51,7 +52,7 @@
       border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
       // z-index: 3;
 
-      &.text-down {
+      &.down {
         transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) + var(--ccm-item-hover-shift))) scale(1.08);
       }
     }
