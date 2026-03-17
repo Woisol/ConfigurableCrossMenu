@@ -60,6 +60,7 @@
       filter 0.3s ease,
       transform 0.3s ease,
       border 0.3s ease;
+    color: var(--ccm-menu-color, hsl(0, 0%, 20%));
     white-space: nowrap;
     font-size: var(--ccm-items-size, 14px);
     writing-mode: vertical-rl;
