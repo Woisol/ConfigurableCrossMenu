@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  position: relative;
   z-index: 10;
   display: flex;
   place-items: center;
@@ -16,6 +15,7 @@
 
   .ccm-center {
 
+    position: relative;
     padding: 12px 20px;
     // padding: min(calc(var(--ccm-center-radius) - 8), 12px) 20px;
     border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
@@ -47,7 +47,7 @@
   }
 
   .ccm-items {
-    min-width: var(--ccm-menu-length, 300px);
+    min-height: max(var(--ccm-menu-length, 0), 100px);
     padding: 16px 8px;
     background-color: var(--ccm-bg-menu-color, hsl(0, 0%, 93%));
     border: none;
@@ -64,6 +64,7 @@
     font-size: var(--ccm-items-size, 14px);
     writing-mode: vertical-rl;
     text-orientation: mixed;
+    text-align: center;
 
     &.text-up {}
 
