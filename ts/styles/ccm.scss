@@ -6,8 +6,8 @@
   display: flex;
   place-items: center;
   flex-direction: column;
-  opacity: var(--ccm-center-opacity, 1);
-  backdrop-filter: blur(var(--ccm-center-blur, 0px));
+  // opacity: var(--ccm-bg-opacity, 1);
+  // backdrop-filter: blur(var(--ccm-bg-blur, 0px));
 
   &.row {
     flex-direction: row;
@@ -21,6 +21,9 @@
     border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
     border-radius: var(--ccm-center-radius, 20px);
     background-color: var(--ccm-bg-center-color, hsl(0, 0%, 100%));
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: var(--ccm-bg-opacity, 1);
+    backdrop-filter: blur(var(--ccm-bg-blur, 0px));
 
     img,
     h3,
@@ -50,7 +53,7 @@
     min-height: max(var(--ccm-menu-length, 0), 100px);
     padding: 16px 8px;
     background-color: var(--ccm-bg-menu-color, hsl(0, 0%, 93%));
-    border: none;
+    border: 0px solid transparent;
     border-radius: var(--ccm-items-radius, 10px);
     position: absolute;
     left: 50%;
