@@ -65,7 +65,7 @@
     transform: translateX(-50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1));
     transition: padding 0.3s ease,
       filter 0.3s ease,
-      transform 0.3s ease,
+      transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
       border 0.3s ease;
     color: var(--ccm-menu-color, hsl(0, 0%, 20%));
     white-space: nowrap;
