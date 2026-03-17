@@ -1,12 +1,13 @@
 type CSSSize = string | number;
+type CSSColor = { light: string, dark?: string } | string; // 支持单一颜色字符串或根据主题自动切换的颜色对象
 export type MenuDirection = 'up' | 'right' | 'down' | 'left';
 
 interface CenterConfig {
   // 方式1：预设图标 + 文字
   icon?: { url: string; size?: CSSSize };
-  title?: { content: string; size?: CSSSize, color?: string };
-  subtitle?: { content: string; size?: CSSSize, color?: string };
-  style?: { direction?: 'column' | 'row', borderSize?: CSSSize, radius?: CSSSize }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
+  title?: { content: string; size?: CSSSize, color?: CSSColor };
+  subtitle?: { content: string; size?: CSSSize, color?: CSSColor };
+  style?: { direction?: 'column' | 'row', color: CSSColor, borderSize?: CSSSize, radius?: CSSSize }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
 }
 
 interface CenterCustom {
@@ -25,6 +26,7 @@ export type MenuItem = {
   direction: MenuDirection,
   label: string,
   size?: CSSSize,
+  offset?: CSSSize, // 菜单项相对于中心的偏移距离
 } & ({
   url?: string
   action?: never
@@ -40,15 +42,15 @@ export interface CCMConfig {
     width: CSSSize,   // ？这是干啥的？弃用？
     // radius: CSSSize,
     background: {
-      menuColor?: string,
-      centerColor?: string,
+      menuColor?: CSSColor,
+      centerColor?: CSSColor,
       opacity?: number
       blur?: number,
     }
     center: CenterStyle,
     menu: {
       length: CSSSize,  // 菜单长度
-      color?: string,
+      color?: CSSColor,
       radius?: CSSSize,
     }
   }
@@ -65,20 +67,20 @@ const defaultConfig = {
     width: 200,
     radius: 50,
     background: {
-      menuColor: 'hsl(0, 0%, 93%)',
-      centerColor: 'hsl(0, 0%, 100%)',
+      menuColor: { light: 'hsl(0, 0%, 93%)', dark: 'hsl(0, 0%, 30%)' },
+      centerColor: { light: 'hsl(0, 0%, 100%)', dark: 'hsl(0, 0%, 50%)' },
       opacity: 0.8,
       blur: 10,
     },
     center: {
-      title: { content: 'CCM', size: 16 },
-      subtitle: { content: 'Configurable Cross Menu', size: 12, color: 'hsl(0, 0%, 50%)' },
-      style: { direction: 'column', borderSize: 2, borderColor: 'hsl(0, 0%, 80%)', radius: 20 },
+      title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' } },
+      subtitle: { content: 'Configurable Cross Menu', size: 12, color: { light: 'hsl(0, 0%, 50%)', dark: 'hsl(0, 0%, 80%)' } },
+      style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, borderSize: 2, borderColor: 'hsl(0, 0%, 80%)', radius: 20 },
     },
     menu: {
       length: 100,
 
-      color: 'hsl(0, 0%, 20%)',
+      color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' },
       radius: 8,
     }
   },
