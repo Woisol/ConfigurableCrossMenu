@@ -5,9 +5,12 @@
     if icon
       img(src=icon alt="icon")
     if title
-      div(class={direction})
-        h3 = title
+      div(class=direction === 'column'? 'col': 'row')
+        //- 注意没有属性需要换行再 =
+        h3
+          = title
         if subtitle
-          p = subtitle
+          p
+            = subtitle
 
       //- .ccm-center-title(style=`font-size: ${titleSize || 16}px; color: ${color || '#000'}`; )= title

@@ -63,7 +63,7 @@
       --ccm-center-border-size: 2px;
       --ccm-center-border-color: hsl(0, 0%, 80%);
       --ccm-center-radius: 20px;
-      --ccm-menu-length: 0px;
+      --ccm-menu-length: 80px;
       --ccm-menu-color: hsl(0, 0%, 40%);
       --ccm-menu-radius: 8px;
     }
@@ -81,12 +81,12 @@
 </head>
 
 <body class="dark.not">
-  <div id="ccm-con" class="ccm-con row">
+  <div id="ccm-con" class="ccm-con">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
     <button class="ccm-items up" onclick="alert('home')"
       style="--ccm-item-size: 2em; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 6px; --ccm-item-offset: 80px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
       <!-- 但是设置了背景又对深色支持不好…… -->
-      <span>家 home</span>
+      家 home
     </button>
     <button class="ccm-items up" onclick="alert('关于')"
       style="--ccm-item-size: 2em;--ccm-item-deg: -30deg;--ccm-item-x: -6px; --ccm-item-offset: 80px;">关于</button>
@@ -108,9 +108,9 @@
     <button class="ccm-items left" onclick="alert('222')"
       style="--ccm-item-size: 2em;--ccm-item-deg: 280deg;--ccm-item-x: 6px; --ccm-item-offset: 80px;">222
     </button>
-    <div class="ccm-center">
+    <div class="ccm-center row">
       <img src="src/assets/icon.png" alt="">
-      <div class="col">
+      <div>
         <h3>CCM</h3>
         <p>Configurable Cross Menu</p>
       </div>
@@ -325,6 +325,22 @@
       }
     }
 
+  </script>
+  <script defer>
+    import('./dist/configable-cross-menu.js').then(() => {
+      const centerTemplate = window.ConfigableCrossMenu?.centerTemplate;
+      if (!centerTemplate) {
+        throw new Error('centerTemplate is not available on window');
+      }
+      const center = centerTemplate({ title: "abc", subtitle: "123", });
+
+      const container = document.getElementById('ccm-con');
+      if (!container) {
+        throw new Error('Container element not found');
+      }
+      container.insertAdjacentHTML('beforeend', center);
+      console.log(center);
+    })
   </script>
 
   <!-- <script defer>

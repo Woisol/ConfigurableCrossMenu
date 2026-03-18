@@ -1,6 +1,6 @@
 import { CCMConfigBuilder, type CCMConfig, type MenuItem } from './config';
 import './styles/index.scss'
-
+import centerTemplate from './templates/center.pug';
 /**
  * 配置化十字菜单库
  *
@@ -42,3 +42,4 @@ export class CCM {
 
 export type { CCMConfig };
 
+export { centerTemplate };
