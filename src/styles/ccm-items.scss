@@ -1,6 +1,6 @@
   .ccm-items {
-    --ccm-item-y: calc(var(--ccm-item-offset, 0px) + 50px);
-    --ccm-item-hover-shift: var(--ccm-item-hover-offset, 15px);
+    --ccm-item-y: calc(var(--ccm-item-offset, 0px) + 60px);
+    --ccm-item-hover-shift: var(--ccm-item-hover-offset, 30px);
     // --ccm-item-hover-shift: calc(var(--ccm-item-hover-offset, 0px) + 15px);
     // --ccm-item-hover-shift: clamp(15px, 30%, 72px);
     min-height: max(var(--ccm-menu-length, 0), 100px);

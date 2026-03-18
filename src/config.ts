@@ -4,7 +4,8 @@ export type MenuDirection = 'up' | 'right' | 'down' | 'left';
 
 interface CenterConfig {
   // 方式1：预设图标 + 文字
-  icon?: { url: string; size?: CSSSize };
+  // icon radius 默认为 center radius 的 80%，可以通过此处覆盖
+  icon?: { url: string; size?: CSSSize, radius?: CSSSize };
   title?: { content: string; size?: CSSSize, color?: CSSColor };
   subtitle?: { content: string; size?: CSSSize, color?: CSSColor };
   style?: { direction?: 'column' | 'row', color: CSSColor, borderSize?: CSSSize, radius?: CSSSize }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
@@ -75,7 +76,7 @@ const defaultConfig = {
       blur: 10,
     },
     center: {
-      title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' } },
+      title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: '5%' },
       subtitle: { content: 'Configurable Cross Menu', size: 12, color: { light: 'hsl(0, 0%, 50%)', dark: 'hsl(0, 0%, 80%)' } },
       style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, borderSize: 2, borderColor: 'hsl(0, 0%, 80%)', radius: 20 },
     },

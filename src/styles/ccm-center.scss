@@ -1,4 +1,6 @@
 .ccm-center {
+  min-width: 150px;
+  min-height: 150px;
   position: relative;
   overflow: hidden;
   // isolation: isolate;
@@ -14,6 +16,9 @@
   backdrop-filter: blur(var(--ccm-bg-blur, 0px));
   transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0);
   transition: transform 220ms ease-out, box-shadow 220ms ease-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   &::before {
     content: "";
@@ -57,8 +62,11 @@
 
   img {
     display: block;
-    width: var(--ccm-center-icon-size, 32px);
-    height: var(--ccm-center-icon-size, 32px);
+    width: var(--ccm-center-icon-size, 100px);
+    height: var(--ccm-center-icon-size, 100px);
+    border-radius: var(--ccm-center-icon-radius, 5%);
+    object-fit: cover;
+    overflow: hidden;
   }
 
   h3 {
