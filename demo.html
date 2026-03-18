@@ -54,7 +54,7 @@
       --ccm-bg-blur: 4px;
       /* icon 不存在时设置 0px */
       --ccm-center-icon-size: 100px;
-      --ccm-center-icon-radius: calc(var(--ccm-center-radius, 100px) * 0.8);
+      /* --ccm-center-icon-radius: ; */
       /* 直接设置数字给 css 并不能生效……js 里手动加上 px 吧 */
       --ccm-center-title-size: 30px;
       --ccm-center-title-color: hsl(0, 0%, 20%);
@@ -63,7 +63,7 @@
       --ccm-center-border-size: 2px;
       --ccm-center-border-color: hsl(0, 0%, 80%);
       --ccm-center-radius: 20px;
-      --ccm-menu-length: 100px;
+      --ccm-menu-length: 0px;
       --ccm-menu-color: hsl(0, 0%, 40%);
       --ccm-menu-radius: 8px;
     }
@@ -84,29 +84,29 @@
   <div id="ccm-con" class="ccm-con row">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
     <button class="ccm-items up" onclick="alert('home')"
-      style="--ccm-item-size: 2em; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 10px; --ccm-item-offset: 80px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
+      style="--ccm-item-size: 2em; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 6px; --ccm-item-offset: 80px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
       <!-- 但是设置了背景又对深色支持不好…… -->
       <span>家 home</span>
     </button>
     <button class="ccm-items up" onclick="alert('关于')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: -30deg;--ccm-item-x: -10px; --ccm-item-offset: 80px;">关于</button>
+      style="--ccm-item-size: 2em;--ccm-item-deg: -30deg;--ccm-item-x: -6px; --ccm-item-offset: 80px;">关于</button>
     <button class="ccm-items right" onclick="alert('contact1')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: 80deg;--ccm-item-x: -5px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 40px;">
+      style="--ccm-item-size: 2em;--ccm-item-deg: 80deg;--ccm-item-x: -6px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 40px;">
       联系 contact1</button>
     <button class="ccm-items right" onclick="alert('contact2')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: 100deg;--ccm-item-x: 5px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 40px;">
+      style="--ccm-item-size: 2em;--ccm-item-deg: 100deg;--ccm-item-x: 6px; --ccm-item-offset: 80px; --ccm-item-hover-offset: 40px;">
       联系 contact2</button>
     <button class="ccm-items down" onclick="alert('settings1')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: -30deg;--ccm-item-x: -10px; --ccm-item-offset: 80px;">设置
+      style="--ccm-item-size: 2em;--ccm-item-deg: -30deg;--ccm-item-x: -6px; --ccm-item-offset: 80px;">设置
       settings1</button>
     <button class="ccm-items down" onclick="alert('settings2')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: 30deg;--ccm-item-x: 10px; --ccm-item-offset: 80px;">设置
+      style="--ccm-item-size: 2em;--ccm-item-deg: 30deg;--ccm-item-x: 6px; --ccm-item-offset: 80px;">设置
       settings2</button>
     <button class="ccm-items left" onclick="alert('111')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: 260deg;--ccm-item-x: -5px; --ccm-item-offset: 80px;">111
+      style="--ccm-item-size: 2em;--ccm-item-deg: 260deg;--ccm-item-x: -6px; --ccm-item-offset: 80px;">111
     </button>
     <button class="ccm-items left" onclick="alert('222')"
-      style="--ccm-item-size: 2em;--ccm-item-deg: 280deg;--ccm-item-x: 5px; --ccm-item-offset: 80px;">222
+      style="--ccm-item-size: 2em;--ccm-item-deg: 280deg;--ccm-item-x: 6px; --ccm-item-offset: 80px;">222
     </button>
     <div class="ccm-center">
       <img src="src/assets/icon.png" alt="">

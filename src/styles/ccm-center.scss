@@ -64,9 +64,9 @@
     display: block;
     width: var(--ccm-center-icon-size, 100px);
     height: var(--ccm-center-icon-size, 100px);
-    border-radius: var(--ccm-center-icon-radius, 5%);
-    object-fit: cover;
-    overflow: hidden;
+    border-radius: var(--ccm-center-icon-radius, calc(var(--ccm-center-radius, 25%) * 0.8));
+    // object-fit: cover;
+    // overflow: hidden;
   }
 
   h3 {

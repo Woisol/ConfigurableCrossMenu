@@ -25,6 +25,16 @@
     flex-direction: row;
   }
 
+  * {
+    margin: 0;
+    // 不知为何这个优先级这么高
+    // padding: 0;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
   .ccm-center {
     // 别问问就是报错要加上 !optional
     @extend center !optional;
