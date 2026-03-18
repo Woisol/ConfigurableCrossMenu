@@ -320,7 +320,13 @@
         _ccmClearSelecting(true);
       } else {
         // 只有一个 up 菜单项，直接触发点击
-        menuItems[0] && menuItems[0].click();
+        const item = menuItems[0];
+        if (item.children.length > 0) {
+          item.children[0].click();
+        } else {
+          item.click();
+        }
+
         _ccmClearSelecting(500);
       }
     }
@@ -389,26 +395,50 @@
         items.filter(item => item.direction === 'down'),
         items.filter(item => item.direction === 'left'),
       ];
-
       const degMap = {
         up: 0,
         right: 90,
         down: 0,
         left: 270,
       }
+      const delegateFunctions = {}
+      items.forEach(item => {
+        if (typeof item.action === 'function') {
+          const funcHash = Math.random().toString(36).substr(2, 9);
+          delegateFunctions[funcHash] = item.action;
+          item.action = `__ccm_dispatch_func('${funcHash}')`;
+        }
+      });
+      window.__ccm_dispatch_func = function (funcHash) {
+        const func = delegateFunctions[funcHash];
+        if (func) {
+          func();
+        } else {
+          console.warn(`No function found for hash: ${funcHash}`);
+        }
+      }
+
+
+
+      function _createMenuItem(item, rotateOffset = 0, x = 0) {
+        const menuItemHTML = menuItemTemplate({ ...item, action: String(item.action), rotate: `${degMap[item.direction] + rotateOffset}deg`, x: `${x}px` });
+        container.insertAdjacentHTML('beforeend', menuItemHTML);
+
+      }
 
       groupedItems.forEach(group => {
         if (group.length === 0) return;
         if (group.length === 1) {
           const item = group[0];
-          const menuItemHTML = menuItemTemplate({ ...item, rotate: `${degMap[item.direction]}deg`, x: 0 });
-          container.insertAdjacentHTML('beforeend', menuItemHTML);
+          _createMenuItem(item);
         } if (group.length === 2) {
           const [first, second] = group;
-          const firstItemHTML = menuItemTemplate({ ...first, rotate: `${degMap[first.direction] - 30}deg`, x: '-6px' });
-          const secondItemHTML = menuItemTemplate({ ...second, rotate: `${degMap[second.direction] + 30}deg`, x: '6px' });
-          container.insertAdjacentHTML('beforeend', firstItemHTML);
-          container.insertAdjacentHTML('beforeend', secondItemHTML);
+          _createMenuItem(first, -30, -6);
+          _createMenuItem(second, 30, 6);
+          // const firstItemHTML = menuItemTemplate({ ...first, rotate: `${degMap[first.direction] - 30}deg`, x: '-6px' });
+          // const secondItemHTML = menuItemTemplate({ ...second, rotate: `${degMap[second.direction] + 30}deg`, x: '6px' });
+          // container.insertAdjacentHTML('beforeend', firstItemHTML);
+          // container.insertAdjacentHTML('beforeend', secondItemHTML);
         }
       })
 
