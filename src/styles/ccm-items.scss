@@ -1,5 +1,5 @@
   .ccm-items {
-    --ccm-item-y: calc(var(--ccm-item-offset, 0px) + 60px);
+    --ccm-item-y: calc(var(--ccm-item-offset, 0px) + 100px);
     --ccm-item-hover-shift: var(--ccm-item-hover-offset, 30px);
     // --ccm-item-hover-shift: calc(var(--ccm-item-hover-offset, 0px) + 15px);
     // --ccm-item-hover-shift: clamp(15px, 30%, 72px);
@@ -19,7 +19,7 @@
       border 0.3s ease;
     color: var(--ccm-menu-color, hsl(0, 0%, 20%));
     white-space: nowrap;
-    font-size: var(--ccm-item-size, 14px);
+    font-size: var(--ccm-item-size, 20px);
     writing-mode: vertical-rl;
     text-orientation: mixed;
     text-align: center;
@@ -58,9 +58,34 @@
       }
     }
 
+    // 判断子元素！
+    &:has(a) {
+      padding: 0;
+
+      a {
+        padding: 12px 2px;
+      }
+    }
+
+    &.selecting:has(a),
+    &:hover:has(a),
+    &:focus:has(a),
+    &:active:has(a) {
+      padding: 0;
+
+      a {
+        padding: 25px 10px;
+      }
+    }
+
     a {
       // hhh 666
       color: inherit;
       text-decoration: none;
+      display: block;
+      // 搞不懂 width 默认……
+      width: 100%;
+      height: 100%;
+      transition: padding 0.3s ease;
     }
   }

@@ -1,13 +1,8 @@
-button(class=`ccm-items ${direction}`,
-  onclick = action, href = url style={
-    '--ccm-item-size': size,
-    '--ccm-item-deg': rotate,
-    '--ccm-item-x': x,
-      '--ccm-item-offset': offset,
-      '--ccm-item-hover-offset': hoverOffset,
-    '--ccm-item-bg-color': bgColor})
-    if url
-      a(href=url rel="noopener noreferrer")
-        = label
-    else
+//- style 没有 attr undefined 忽略的特性，需要手动处理
+- const styleParts = [size != null && `--ccm-item-size:${size}`, rotate != null && `--ccm-item-deg:${rotate}`, x != null && `--ccm-item-x:${x}`, offset != null && `--ccm-item-offset:${offset}`, hoverOffset != null && `--ccm-item-hover-offset:${hoverOffset}`, bgColor != null && `--ccm-item-bg-color:${bgColor}`].filter(Boolean).join(';')
+button(class=`ccm-items ${direction}`, onclick=action, style=styleParts)
+  if url
+    a(href=url rel="noopener noreferrer")
       = label
+  else
+    = label

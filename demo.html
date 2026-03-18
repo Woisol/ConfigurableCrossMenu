@@ -83,10 +83,10 @@
 <body class="dark.not">
   <div id="ccm-con" class="ccm-con">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
-    <button class="ccm-items up" onclick="alert('home')"
-      style="--ccm-item-size: 2em; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 6px; --ccm-item-offset: 80px; --ccm-item-bg-color: hsl(200, 100%, 80%);">
-      <!-- 但是设置了背景又对深色支持不好…… -->
-      家 home
+    <!-- <button class="ccm-items up" onclick="alert('home')"
+      style="--ccm-item-size: 2em; --ccm-items-offset: 0px;--ccm-item-deg: 30deg;--ccm-item-x: 6px; --ccm-item-offset: 80px; --ccm-item-bg-color: hsl(200, 100%, 80%);"> -->
+    <!-- 但是设置了背景又对深色支持不好…… -->
+    <!-- 家 home
     </button>
     <button class="ccm-items up" onclick="alert('关于')"
       style="--ccm-item-size: 2em;--ccm-item-deg: -30deg;--ccm-item-x: -6px; --ccm-item-offset: 80px;">关于</button>
@@ -107,7 +107,7 @@
     </button>
     <button class="ccm-items left" onclick="alert('222')"
       style="--ccm-item-size: 2em;--ccm-item-deg: 280deg;--ccm-item-x: 6px; --ccm-item-offset: 80px;">222
-    </button>
+    </button> -->
     <!-- <div class="ccm-center row">
       <img src="src/assets/icon.png" alt="">
       <div>
@@ -354,12 +354,12 @@
       // items: [],
       keyBindings: {}
     };
-    const testItems = [
-      { direction: 'up', label: 'Up Item', action: () => alert('Up') },
-      { direction: 'right', label: 'Right Item', action: () => alert('Right') },
-      { direction: 'down', label: 'Down Item1', action: () => alert('Down') },
-      { direction: 'down', label: 'Down Item2', url: 'https://bilibili.com' },
-      { direction: 'left', label: 'Left Item', action: () => alert('Left') },
+    const items = [
+      { direction: 'up', label: 'Up', action: () => alert('Up'), url: 'https://bilibili.com' },
+      { direction: 'right', label: 'Right', action: () => alert('Right') },
+      { direction: 'down', label: 'Down1', action: () => alert('Down') },
+      { direction: 'down', label: 'Down2', url: 'https://bilibili.com' },
+      { direction: 'left', label: 'Left', action: () => alert('Left') },
     ]
 
     import('./dist/configable-cross-menu.js').then(() => {
@@ -380,8 +380,33 @@
       container.insertAdjacentHTML('beforeend', center);
       console.log(center);
 
-      const menuItem = menuItemTemplate({ direction: 'up', label: 'Test Item', url: 'https://bilibili.com', action: "alert('Test')", size: '2em', rotate: '60deg', x: '0px', offset: '80px', hoverOffset: '60px', bgColor: 'hsl(200, 100%, 80%)' });
-      container.insertAdjacentHTML('beforeend', menuItem);
+      // const menuItem = menuItemTemplate({ direction: 'up', label: 'Test Item', url: 'https://bilibili.com', action: "alert('Test')", size: '2em', rotate: '60deg', x: '0px', offset: '80px', hoverOffset: '60px', bgColor: 'hsl(200, 100%, 80%)' });
+      // container.insertAdjacentHTML('beforeend', menuItem);
+
+      const groupedItems = [
+        items.filter(item => item.direction === 'up'),
+        items.filter(item => item.direction === 'right'),
+        items.filter(item => item.direction === 'down'),
+        items.filter(item => item.direction === 'left'),
+      ];
+
+      const degMap = {
+        up: 0,
+        right: 90,
+        down: 0,
+        left: 270,
+      }
+
+      groupedItems.forEach(group => {
+        if (group.length === 0) return;
+        if (group.length === 1) {
+          const item = group[0];
+          const menuItemHTML = menuItemTemplate({ ...item, rotate: `${degMap[item.direction]}deg`, x: 0 });
+          container.insertAdjacentHTML('beforeend', menuItemHTML);
+        }
+      })
+
+
     })
   </script>
 
