@@ -293,7 +293,7 @@
             return false;
           }
 
-          targetItem.click();
+          targetItem.children.length > 0 ? targetItem.children[0].click() : targetItem.click();
           _ccmClearSelecting(1000);
           return true;
         }
@@ -327,12 +327,51 @@
 
   </script>
   <script defer>
+    const defaultConfig = {
+      container: "#ccm-con",
+      startingDirections: 'up',
+      style: {
+        width: 200,
+        radius: 50,
+        background: {
+          menuColor: { light: 'hsl(0, 0%, 93%)', dark: 'hsl(0, 0%, 30%)' },
+          centerColor: { light: 'hsl(0, 0%, 100%)', dark: 'hsl(0, 0%, 50%)' },
+          opacity: 0.8,
+          blur: 10,
+        },
+        center: {
+          title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: '5%' },
+          subtitle: { content: 'Configurable Cross Menu', size: 12, color: { light: 'hsl(0, 0%, 50%)', dark: 'hsl(0, 0%, 80%)' } },
+          style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, borderSize: 2, borderColor: 'hsl(0, 0%, 80%)', radius: 20 },
+        },
+        menu: {
+          length: 100,
+
+          color: { light: 'hsl(0, 0%, 40%)', dark: 'hsl(0, 0%, 60%)' },
+          radius: 8,
+        }
+      },
+      // items: [],
+      keyBindings: {}
+    };
+    const testItems = [
+      { direction: 'up', label: 'Up Item', action: () => alert('Up') },
+      { direction: 'right', label: 'Right Item', action: () => alert('Right') },
+      { direction: 'down', label: 'Down Item1', action: () => alert('Down') },
+      { direction: 'down', label: 'Down Item2', url: 'https://bilibili.com' },
+      { direction: 'left', label: 'Left Item', action: () => alert('Left') },
+    ]
+
     import('./dist/configable-cross-menu.js').then(() => {
       const centerTemplate = window.ConfigableCrossMenu?.centerTemplate;
+      const menuItemTemplate = window.ConfigableCrossMenu?.menuItemTemplate;
       if (!centerTemplate) {
-        throw new Error('centerTemplate is not available on window');
+        throw new Error('centerTemplate is not available');
       }
-      const center = centerTemplate({ title: "abc", subtitle: "123", });
+      if (!menuItemTemplate) {
+        throw new Error('menuItemTemplate is not available');
+      }
+      const center = centerTemplate({ title: "abc", subtitle: "123", icon: "src/assets/icon.png" });
 
       const container = document.getElementById('ccm-con');
       if (!container) {
@@ -340,6 +379,9 @@
       }
       container.insertAdjacentHTML('beforeend', center);
       console.log(center);
+
+      const menuItem = menuItemTemplate({ direction: 'up', label: 'Test Item', url: 'https://bilibili.com', action: "alert('Test')", size: '2em', rotate: '60deg', x: '0px', offset: '80px', hoverOffset: '60px', bgColor: 'hsl(200, 100%, 80%)' });
+      container.insertAdjacentHTML('beforeend', menuItem);
     })
   </script>
 

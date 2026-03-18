@@ -105,3 +105,11 @@ export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindin
 }
 
 // export { CCMConfigBuilder };
+
+const testItems: MenuItem[] = [
+  { direction: 'up', label: 'Up Item', action: () => alert('Up') },
+  { direction: 'right', label: 'Right Item', action: () => alert('Right') },
+  { direction: 'down', label: 'Down Item1', action: () => alert('Down') },
+  { direction: 'down', label: 'Down Item2', url: 'https://bilibili.com' },
+  { direction: 'left', label: 'Left Item', action: () => alert('Left') },
+]

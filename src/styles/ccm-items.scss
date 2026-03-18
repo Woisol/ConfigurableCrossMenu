@@ -57,4 +57,10 @@
         transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) + var(--ccm-item-hover-shift))) scale(1.08);
       }
     }
+
+    a {
+      // hhh 666
+      color: inherit;
+      text-decoration: none;
+    }
   }
