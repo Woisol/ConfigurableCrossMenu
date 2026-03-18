@@ -320,8 +320,8 @@
         _ccmClearSelecting(true);
       } else {
         // 只有一个 up 菜单项，直接触发点击
-        menuItems[0].click();
-        _ccmClearSelecting(1000);
+        menuItems[0] && menuItems[0].click();
+        _ccmClearSelecting(500);
       }
     }
 
@@ -403,6 +403,12 @@
           const item = group[0];
           const menuItemHTML = menuItemTemplate({ ...item, rotate: `${degMap[item.direction]}deg`, x: 0 });
           container.insertAdjacentHTML('beforeend', menuItemHTML);
+        } if (group.length === 2) {
+          const [first, second] = group;
+          const firstItemHTML = menuItemTemplate({ ...first, rotate: `${degMap[first.direction] - 30}deg`, x: '-6px' });
+          const secondItemHTML = menuItemTemplate({ ...second, rotate: `${degMap[second.direction] + 30}deg`, x: '6px' });
+          container.insertAdjacentHTML('beforeend', firstItemHTML);
+          container.insertAdjacentHTML('beforeend', secondItemHTML);
         }
       })
 
