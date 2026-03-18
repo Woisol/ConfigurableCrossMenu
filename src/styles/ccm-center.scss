@@ -1,6 +1,8 @@
 .ccm-center {
   min-width: 150px;
   min-height: 150px;
+  width: fit-content;
+  height: fit-content;
   position: relative;
   overflow: hidden;
   // isolation: isolate;
@@ -17,15 +19,18 @@
   transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0);
   transition: transform 220ms ease-out, box-shadow 220ms ease-out;
   display: flex;
+  gap: 0.5em;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   &.column {
+    gap: 0.5em;
     flex-direction: column;
   }
 
   &.row {
+    gap: 0.8em;
     flex-direction: row;
   }
 

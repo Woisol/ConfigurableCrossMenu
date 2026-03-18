@@ -4,7 +4,7 @@
     // --ccm-item-hover-shift: calc(var(--ccm-item-hover-offset, 0px) + 15px);
     // --ccm-item-hover-shift: clamp(15px, 30%, 72px);
     min-height: max(var(--ccm-menu-length, 0), 80px);
-    padding: 8px 2px;
+    padding: 12px 2px;
     background-color: var(--ccm-item-bg-color, var(--ccm-bg-menu-color, hsl(0, 0%, 93%)));
     border: 0px solid transparent;
     border-radius: var(--ccm-items-radius, 10px);
