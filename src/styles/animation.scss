@@ -49,8 +49,13 @@
 
 @keyframes ccm-item-show-rotate {
   0% {
-    filter: opacity(0);
+    filter: opacity(0) blur(20px);
     transform: translate(-50%, -50%) rotate(calc(var(--ccm-item-deg) - 90deg)) translateX(0) translateY(0) scale(0.5);
+  }
+
+  40% {
+    filter: opacity(0.55) blur(10px);
+    // transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * 1.05)) translateY(calc(var(--ccm-item-y) * -1.05)) scale(1.05);
   }
 
   100% {
@@ -62,8 +67,13 @@
 
 @keyframes ccm-item-show-rotate-down {
   0% {
-    filter: opacity(0);
+    filter: opacity(0) blur(20px);
     transform: translate(-50%, -50%) rotate(calc(var(--ccm-item-deg) - 90deg)) translateX(0) translateY(0) scale(0.5);
+  }
+
+  40% {
+    filter: opacity(0.55) blur(10px);
+    // transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * 1.05)) translateY(calc(var(--ccm-item-y) * -1.05)) scale(1.05);
   }
 
   100% {
@@ -72,6 +82,20 @@
   }
 }
 
+@keyframes ccm-center-show {
+  0% {
+    filter: opacity(0.2) blur(20px);
+    // transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1.3);
+    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(0.4);
+  }
+
+  100% {
+    filter: opacity(1);
+    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1);
+  }
+}
+
+// 其它可能的方案
 // @keyframes ccm-item-show-rotate {
 //   0% {
 //     filter: opacity(0);
@@ -85,17 +109,18 @@
 //   }
 // }
 
-@keyframes ccm-center-show {
-  0% {
-    filter: opacity(0);
-    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(0.4);
-  }
+// @keyframes ccm-center-show {
+//   0% {
+//     filter: opacity(0);
+//     transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(0.4);
+//   }
 
-  100% {
-    filter: opacity(1);
-    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1);
-  }
-}
+//   100% {
+//     filter: opacity(1);
+//     transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1);
+//   }
+// }
+
 
 @keyframes ccm-item-show-ripple {
   0% {
@@ -128,5 +153,29 @@
   100% {
     filter: opacity(0.5);
     transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * -1)) translateY(var(--ccm-item-y)) scale(1);
+  }
+}
+
+@keyframes ccm-center-expand {
+  0% {
+    filter: opacity(0);
+    clip-path: circle(0% at 50% 50%);
+    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(0.9);
+  }
+
+  40% {
+    filter: opacity(0.7);
+    clip-path: circle(60% at 50% 50%);
+  }
+
+  70% {
+    clip-path: circle(120% at 50% 50%);
+    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1.03);
+  }
+
+  100% {
+    filter: opacity(1);
+    clip-path: circle(200% at 50% 50%);
+    transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1);
   }
 }
