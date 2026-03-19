@@ -1,5 +1,7 @@
 import { CCMConfigBuilder, type CCMConfig, type MenuDirection, type MenuItem } from "./config";
-import * as pug from "pug";
+// import * as pug from "pug";
+import { centerTemplate } from './templates/center.pug';
+import { menuItemTemplate } from './templates/menuItem.pug';
 
 /**
  * 配置化十字菜单库
@@ -116,7 +118,7 @@ export class CCM {
     })
 
   }
-  _menuPugFunc = pug.compileFile('/templates/menuItem.pug')
+  // menuItemTemplate = pug.compileFile('/templates/menuItem.pug')
   _createMenuItem(item: MenuItem, rotateOffset = 0, x = 0) {
     const degMap = {
       up: 0,
@@ -124,7 +126,8 @@ export class CCM {
       down: 0,
       left: 270,
     };
-    const menuItemHTML = this._menuPugFunc({ ...item, action: String(item.action), rotate: `${degMap[item.direction] + rotateOffset}deg`, x: `${x}px` });
+    // 此时确实是 string……
+    const menuItemHTML = menuItemTemplate({ ...item, action: item.action as unknown as string, rotate: `${degMap[item.direction] + rotateOffset}deg`, x: `${x}px` });
     this.container.insertAdjacentHTML('beforeend', menuItemHTML);
   }
 
@@ -133,7 +136,7 @@ export class CCM {
    */
   renderCenter(): void {
     // throw new Error('Not implemented yet');
-    const centerHtml = pug.renderFile('/templates/center.pug', { ...this.config.style.center });
+    const centerHtml = centerTemplate({ ...this.config.style.center });
     const container = document.querySelector(this.config.container);
     if (!container) {
       throw new Error(`Container element not found for selector: ${this.config.container}`);

@@ -1,0 +1,11 @@
+export { };
+
+// 模块扩大中不允许导出和导出分配。ts(2666)
+declare module './templates/center.pug' {
+  const centerTemplate: (centerStyle: import('./config').CenterStyle) => string;
+  export { centerTemplate };
+}
+declare module './templates/menuItem.pug' {
+  const menuItemTemplate: (itemData: import('./config').MenuItem) => string;
+  export { menuItemTemplate };
+}

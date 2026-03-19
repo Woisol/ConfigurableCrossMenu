@@ -17,7 +17,7 @@ interface CenterCustom {
 }
 
 // 用 discriminated union 替代 union of objects
-type CenterStyle =
+export type CenterStyle =
   | (CenterConfig & { render?: never })
   | CenterCustom;
 
