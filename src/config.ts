@@ -94,14 +94,24 @@ const defaultConfig = {
 export function CCMConfigBuilder(config: Partial<CCMConfig>): CCMConfig;
 export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings: boolean): CCMConfig;
 export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings?: boolean): CCMConfig {
-  config = { ...defaultConfig, ...config };
-  if (useDefaultKeyBindings) config.keyBindings = {
+  const merged: CCMConfig = {
+    ...defaultConfig,
+    ...config,
+    style: {
+      ...defaultConfig.style,
+      ...config.style,
+      background: { ...defaultConfig.style.background, ...config.style?.background },
+      menu: { ...defaultConfig.style.menu, ...config.style?.menu },
+      center: config.style?.center ?? defaultConfig.style.center,
+    },
+  };
+  if (useDefaultKeyBindings) merged.keyBindings = {
     up: 'w',
     right: 'd',
     down: 's',
     left: 'a',
-  }
-  return config as CCMConfig;
+  };
+  return merged;
 }
 
 // export { CCMConfigBuilder };
