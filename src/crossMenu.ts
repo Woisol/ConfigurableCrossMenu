@@ -65,10 +65,12 @@ export class CCM {
     }
 
     try {
-      // 渲染菜单项
-      this.renderMenuItems();
       // 渲染中心元素
       this.renderCenter();
+      setTimeout(() => {
+        // 渲染菜单项
+        this.renderMenuItems();
+      }, this.config.style.showAnimation.center.duration);
     } catch (error) {
       console.error('Error rendering CCM:', error);
       this.destroy();
@@ -91,6 +93,7 @@ export class CCM {
     const center = 'render' in style.center ? null : style.center;
     const v = (prop: string, val: string | number | null | undefined) => val != null && val !== '' ? `  ${prop}: ${val};` : '';
     // 这部分非常适合 vibe……
+    // 确实这种数组 + '' + filter(Boolean) 的方式不错的
     styleEle.innerHTML = [
       `:root {`,
       v('--ccm-width', numOrStr(style.width)),
@@ -120,15 +123,18 @@ export class CCM {
       v('--ccm-menu-color', cd(style.menu.color)),
       center?.style?.color ? v('color', cd(center.style.color)) : '',
       `}`,
+      style.showAnimation.center.duration ? `--ccm-center-show-duration: ${style.showAnimation.center.duration}ms` : '',
     ].filter(Boolean).join('\n');
     head.appendChild(styleEle);
 
     // 引入打包 CSS？
   }
+  // TODO 把 render 和 注册类 拆分出去……
 
   /**
    * 渲染菜单项
    */
+
   renderMenuItems(): void {
     // throw new Error('Not implemented yet');
     const items = this.items;
@@ -157,20 +163,22 @@ export class CCM {
       } else {
         console.warn(`No function found for hash: ${funcHash}`);
       }
-    }
+    };
 
 
-    groupedItems.forEach(group => {
-      if (group.length === 0) return;
-      if (group.length === 1) {
-        const item = group[0];
-        this._createMenuItem(item!);
-      } if (group.length === 2) {
-        const [first, second] = group;
-        this._createMenuItem(first!, -20, 6);
-        this._createMenuItem(second!, 20, -6);
+    (async () => {
+      for (const group of groupedItems) {
+        if (group.length === 0) continue;
+        await new Promise<void>(r => setTimeout(r, this.config.style.showAnimation.menu.durationPerItem));
+        if (group.length === 1) {
+          this._createMenuItem(group[0]!);
+        } else if (group.length === 2) {
+          this._createMenuItem(group[0]!, -20, 6);
+          await new Promise<void>(r => setTimeout(r, this.config.style.showAnimation.menu.durationPerItem));
+          this._createMenuItem(group[1]!, 20, -6);
+        }
       }
-    })
+    })();
 
   }
   // menuItemTemplate = pug.compileFile('/templates/menuItem.pug')

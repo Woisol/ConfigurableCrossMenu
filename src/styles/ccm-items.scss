@@ -26,6 +26,9 @@
     // 指明元素将要发生的变化，以便浏览器可以提前做好优化，提升动画性能。一般已经尽力优化作为最后手段，过多使用可能导致内存占用 https: //developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Properties/will-change
     will-change: transform;
     filter: opacity(0.5);
+    // 不能用 forward 否则结束后保留动画状态 hover 的 translate 不生效
+    // https: //cubic-bezier.tupulin.com/#cubic-bezier(0.30,0.30,0.40,1.15)
+    animation: ccm-item-show-rotate 1s cubic-bezier(0.30, 0.30, 0.40, 1.15) none;
 
     &.up {}
 
@@ -41,6 +44,7 @@
     &.down {
       transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * -1)) translateY(var(--ccm-item-y));
       writing-mode: vertical-lr;
+      animation: ccm-item-show-rotate-down 1s cubic-bezier(0.30, 0.30, 0.40, 1.15) none;
     }
 
     // &.selecting:not(:hover):not(:focus):not(:active) {

@@ -56,6 +56,14 @@ export interface CCMConfig {
       color?: CSSColor,
       radius?: CSSSize,
     }
+    showAnimation: {
+      center: {
+        duration: number, // 设置 0 关闭
+      }
+      menu: {
+        durationPerItem: number, // 设置 0 关闭
+      }
+    },
   }
   // items: MenuItem[],
   keyBindings: Partial<Record<MenuDirection, string>>
@@ -87,6 +95,14 @@ const defaultConfig = {
 
       color: { light: 'hsl(0, 0%, 40%)', dark: 'hsl(0, 0%, 60%)' },
       radius: 8,
+    },
+    showAnimation: {
+      center: {
+        duration: 500,
+      },
+      menu: {
+        durationPerItem: 100,
+      }
     }
   },
   // items: [],
@@ -111,6 +127,10 @@ export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindin
         if ('render' in uc) return uc;
         return { ...uc, style: { ...dc?.style, ...uc.style } as NonNullable<typeof uc.style> };
       })(),
+      showAnimation: {
+        center: { ...defaultConfig.style.showAnimation.center, ...config.style?.showAnimation?.center },
+        menu: { ...defaultConfig.style.showAnimation.menu, ...config.style?.showAnimation?.menu },
+      },
     },
   };
   if (useDefaultKeyBindings) merged.keyBindings = {
