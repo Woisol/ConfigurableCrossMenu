@@ -78,6 +78,7 @@ const defaultConfig = {
     center: {
       title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: '5%' },
       subtitle: { content: 'Configurable Cross Menu', size: 12, color: { light: 'hsl(0, 0%, 50%)', dark: 'hsl(0, 0%, 80%)' } },
+      //TODO color 没有实现
       style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, borderSize: 2, borderColor: 'hsl(0, 0%, 80%)', radius: 20 },
     },
     menu: {
@@ -102,7 +103,13 @@ export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindin
       ...config.style,
       background: { ...defaultConfig.style.background, ...config.style?.background },
       menu: { ...defaultConfig.style.menu, ...config.style?.menu },
-      center: config.style?.center ?? defaultConfig.style.center,
+      center: (() => {
+        const dc = 'render' in defaultConfig.style.center ? undefined : defaultConfig.style.center;
+        const uc = config.style?.center;
+        if (!uc) return defaultConfig.style.center;
+        if ('render' in uc) return uc;
+        return { ...uc, style: { ...dc?.style, ...uc.style } as NonNullable<typeof uc.style> };
+      })(),
     },
   };
   if (useDefaultKeyBindings) merged.keyBindings = {

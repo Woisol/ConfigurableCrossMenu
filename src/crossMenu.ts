@@ -86,26 +86,28 @@ export class CCM {
     // styleEle.type = 'text/css';  // type 弃用
     const cl = (c: typeof style.background.menuColor) => !c ? '' : typeof c === 'string' ? c : c.light;
     const cd = (c: typeof style.background.menuColor) => !c ? '' : typeof c === 'string' ? c : (c.dark ?? c.light);
+    const numOrStr = (val: string | number | undefined) => val != null ? typeof val === 'number' ? `${val}px` : val : '';
     const center = 'render' in style.center ? null : style.center;
     const v = (prop: string, val: string | number | null | undefined) => val != null && val !== '' ? `  ${prop}: ${val};` : '';
+    // 这部分非常适合 vibe……
     styleEle.innerHTML = [
       `:root {`,
-      v('--ccm-width', style.width),
+      v('--ccm-width', numOrStr(style.width)),
       v('--ccm-bg-menu-color', cl(style.background.menuColor)),
       v('--ccm-bg-center-color', cl(style.background.centerColor)),
       v('--ccm-bg-opacity', style.background.opacity),
       style.background.blur != null ? `  --ccm-bg-blur: ${style.background.blur}px;` : '',
-      center?.icon?.size != null ? `  --ccm-center-icon-size: ${center.icon.size};` : '',
-      center?.title?.size != null ? `  --ccm-center-title-size: ${center.title.size};` : '',
+      center?.icon?.size != null ? `  --ccm-center-icon-size: ${numOrStr(center.icon.size)};` : '',
+      center?.title?.size != null ? `  --ccm-center-title-size: ${numOrStr(center.title.size)};` : '',
       center?.title?.color ? v('--ccm-center-title-color', cl(center.title.color)) : '',
-      center?.subtitle?.size != null ? `  --ccm-center-subtitle-size: ${center.subtitle.size};` : '',
+      center?.subtitle?.size != null ? `  --ccm-center-subtitle-size: ${numOrStr(center.subtitle.size)};` : '',
       center?.subtitle?.color ? v('--ccm-center-subtitle-color', cl(center.subtitle.color)) : '',
-      center?.style?.borderSize != null ? `  --ccm-center-border-size: ${center.style.borderSize};` : '',
+      center?.style?.borderSize != null ? `  --ccm-center-border-size: ${numOrStr(center.style.borderSize)};` : '',
       center?.style?.color ? v('--ccm-center-border-color', cl(center.style.color)) : '',
-      center?.style?.radius != null ? `  --ccm-center-radius: ${center.style.radius};` : '',
-      v('--ccm-menu-length', style.menu.length),
+      center?.style?.radius != null ? `  --ccm-center-radius: ${numOrStr(center.style.radius)};` : '',
+      v('--ccm-menu-length', numOrStr(style.menu.length)),
       v('--ccm-menu-color', cl(style.menu.color)),
-      style.menu.radius != null ? `  --ccm-menu-radius: ${style.menu.radius};` : '',
+      style.menu.radius != null ? `  --ccm-menu-radius: ${numOrStr(style.menu.radius)};` : '',
       `}`,
       ``,
       `.dark {`,
@@ -119,6 +121,8 @@ export class CCM {
       `}`,
     ].filter(Boolean).join('\n');
     head.appendChild(styleEle);
+
+    // 引入打包 CSS？
   }
 
   /**
