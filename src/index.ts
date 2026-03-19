@@ -7,39 +7,9 @@ import './styles/index.scss'
  * const ccm = new CCM({ ... });
  * ccm.render();
  */
-export class CCM {
-  private _config: CCMConfig;
-  // private crossMenu: CrossMenu | null = null;
 
-  get config(): CCMConfig {
-    return this._config;
-  }
-
-  set config(config: Partial<CCMConfig>) {
-    this._config = { ...this._config, ...config };
-  }
-
-  constructor(
-    config: Partial<CCMConfig>,
-    useDefaultKeyBindings: boolean = true,
-  ) {
-    this._config = CCMConfigBuilder(config, useDefaultKeyBindings);
-  }
-
-  /**
-   * 渲染菜单
-   */
-  render(items?: MenuItem[], container?: string): void {
-  }
-
-  /**
-   * 销毁菜单
-   */
-  destroy(): void {
-  }
-}
-
+export { CCM } from './crossMenu';
 export type { CCMConfig };
 
-export * as centerTemplate from './templates/center.pug';
-export * as menuItemTemplate from './templates/menuItem.pug';
+// export * as centerTemplate from './templates/center.pug';
+// export * as menuItemTemplate from './templates/menuItem.pug';
