@@ -9,11 +9,13 @@
   z-index: 2;
   padding: 12px 20px;
   // padding: min(calc(var(--ccm-center-radius) - 8), 12px) 20px;
-  border: var(--ccm-center-border-size, 2px) solid var(--ccm-center-border-color, #333);
+  border: var(--ccm-center-border-size, 0px) solid var(--ccm-center-border-color, #333);
   border-radius: var(--ccm-center-radius, 20px);
-  background-color: var(--ccm-bg-center-color, hsl(0, 0%, 100%));
+  // background-color: var(--ccm-bg-center-color / var(--ccm-bg-opacity, 1), hsl(0, 0%, 100%));
+  background-color: color-mix(in srgb, var(--ccm-bg-center-color, hsl(0, 0%, 100%)) calc(var(--ccm-bg-opacity, 1) * 100%), transparent);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  opacity: var(--ccm-bg-opacity, 1);
+  // 又踩坑…… opacity 和 blur 不兼容……
+  // opacity: var(--ccm-bg-opacity, 1);
   -webkit-backdrop-filter: blur(var(--ccm-bg-blur, 0px));
   backdrop-filter: blur(var(--ccm-bg-blur, 0px));
   transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0);

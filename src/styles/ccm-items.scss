@@ -25,6 +25,7 @@
     text-align: center;
     // 指明元素将要发生的变化，以便浏览器可以提前做好优化，提升动画性能。一般已经尽力优化作为最后手段，过多使用可能导致内存占用 https: //developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Properties/will-change
     will-change: transform;
+    filter: opacity(0.5);
 
     &.up {}
 
@@ -42,11 +43,17 @@
       writing-mode: vertical-lr;
     }
 
+    // &.selecting:not(:hover):not(:focus):not(:active) {
+    //   // padding: 20px 8px;
+    //   border: 0px;
+    //   filter: opacity(0.8);
+    // }
+
     &.selecting,
     &:hover,
     &:focus,
     &:active {
-      filter: brightness(0.95);
+      filter: opacity(1);
       padding: 25px 10px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
       transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1 - var(--ccm-item-hover-shift))) scale(1.08);
