@@ -19,7 +19,7 @@
       border 0.3s ease;
     color: var(--ccm-menu-color, hsl(0, 0%, 20%));
     white-space: nowrap;
-    font-size: var(--ccm-item-size, 20px);
+    font-size: var(--ccm-item-size, 30px);
     writing-mode: vertical-rl;
     text-orientation: mixed;
     text-align: center;
@@ -38,7 +38,7 @@
     }
 
     &.down {
-      transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(var(--ccm-item-y));
+      transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * -1)) translateY(var(--ccm-item-y));
       writing-mode: vertical-lr;
     }
 

@@ -2,6 +2,7 @@ import { CCMConfigBuilder, type CCMConfig, type MenuDirection, type MenuItem } f
 // import * as pug from "pug";
 import centerTemplate from './templates/center.pug';
 import menuItemTemplate from './templates/menuItem.pug';
+import { retry } from "./utils/utils";
 
 /**
  * 配置化十字菜单库
@@ -166,8 +167,8 @@ export class CCM {
         this._createMenuItem(item!);
       } if (group.length === 2) {
         const [first, second] = group;
-        this._createMenuItem(first!, -30, -6);
-        this._createMenuItem(second!, 30, 6);
+        this._createMenuItem(first!, -20, 6);
+        this._createMenuItem(second!, 20, -6);
       }
     })
 
@@ -214,13 +215,13 @@ export class CCM {
    * 视差效果注册
    */
   registerParallaxEffect(): void {
-    // 不对，为什么要用 IIFE 包裹？直接放在外面不行吗？因为要等 DOM 加载完成，或者说等元素存在了再绑定事件，不然 document.getElementById('ccm-con') 就拿不到元素了。
-    // woc，加 defer 无法解决
-    // (() => {
-    document.addEventListener('DOMContentLoaded', () => {
+    const init = async () => {
       const parallaxCon = document.body;
-      const ccm = document.getElementById('ccm-con');
-      if (!parallaxCon || !ccm) return;
+      // const this.container = this.container;
+      await retry(() => Promise.resolve(this.container), 10, 500);
+      if (!parallaxCon || !this.container) {
+        throw new Error('Parallax container or CCM container not found');
+      };
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -236,17 +237,17 @@ export class CCM {
         const nx = ((latestPointerEvent.clientX - rect.left) / rect.width - 0.5) * 2;
         const ny = ((latestPointerEvent.clientY - rect.top) / rect.height - 0.5) * 2;
 
-        ccm.style.setProperty('--ccm-parallax-x', `${(nx * 80).toFixed(2)}px`);
-        ccm.style.setProperty('--ccm-parallax-y', `${(ny * 80).toFixed(2)}px`);
-        ccm.style.setProperty('--ccm-tilt-x', `${(nx * 25).toFixed(2)}deg`);
-        ccm.style.setProperty('--ccm-tilt-y', `${(-ny * 20).toFixed(2)}deg`);
+        this.container.style.setProperty('--ccm-parallax-x', `${(nx * 80).toFixed(2)}px`);
+        this.container.style.setProperty('--ccm-parallax-y', `${(ny * 80).toFixed(2)}px`);
+        this.container.style.setProperty('--ccm-tilt-x', `${(nx * 25).toFixed(2)}deg`);
+        this.container.style.setProperty('--ccm-tilt-y', `${(-ny * 20).toFixed(2)}deg`);
       };
 
       const reset = () => {
-        ccm.style.setProperty('--ccm-parallax-x', '0px');
-        ccm.style.setProperty('--ccm-parallax-y', '0px');
-        ccm.style.setProperty('--ccm-tilt-x', '0deg');
-        ccm.style.setProperty('--ccm-tilt-y', '0deg');
+        this.container.style.setProperty('--ccm-parallax-x', '0px');
+        this.container.style.setProperty('--ccm-parallax-y', '0px');
+        this.container.style.setProperty('--ccm-tilt-x', '0deg');
+        this.container.style.setProperty('--ccm-tilt-y', '0deg');
       };
 
       const onPointerMove = (event: PointerEvent) => {
@@ -269,8 +270,13 @@ export class CCM {
       // 还是得加，不加动画抽搐
       parallaxCon.addEventListener('pointermove', onPointerMove, { passive: true });
       parallaxCon.addEventListener('pointerleave', onPointerLeave, { passive: true });
-    });
-    // })();
+    };
+    // 哦哦是喔已经加载完了哈哈
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   }
 
   /**
