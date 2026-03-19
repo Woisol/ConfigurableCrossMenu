@@ -109,30 +109,49 @@ const defaultConfig = {
   keyBindings: {}
 } as CCMConfig;
 
-export function CCMConfigBuilder(config: Partial<CCMConfig>): CCMConfig;
-export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings: boolean): CCMConfig;
-export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings?: boolean): CCMConfig {
-  const merged: CCMConfig = {
-    ...defaultConfig,
+// export function mergeConfig(config: Partial<CCMConfig>): CCMConfig;
+// export function mergeConfig(config: Partial<CCMConfig>, origin: CCMConfig): CCMConfig;
+export function mergeConfig(config: Partial<CCMConfig>, origin: CCMConfig): CCMConfig {
+  // let base: CCMConfig;
+  // if (origin) {
+  //   base = origin;
+  // } else {
+  //   // @ts-expect-error this
+  //   if ('config' in this) {
+  //     // @ts-expect-error this
+  //     base = this.config;
+  //   } else {
+  //     throw new Error('No origin config provided and this.config is not available');
+  //   }
+  // }
+  const base = origin;
+  return {
+    ...base,
     ...config,
     style: {
-      ...defaultConfig.style,
+      ...base.style,
       ...config.style,
-      background: { ...defaultConfig.style.background, ...config.style?.background },
-      menu: { ...defaultConfig.style.menu, ...config.style?.menu },
+      background: { ...base.style.background, ...config.style?.background },
+      menu: { ...base.style.menu, ...config.style?.menu },
       center: (() => {
-        const dc = 'render' in defaultConfig.style.center ? undefined : defaultConfig.style.center;
+        const dc = 'render' in base.style.center ? undefined : base.style.center;
         const uc = config.style?.center;
-        if (!uc) return defaultConfig.style.center;
+        if (!uc) return base.style.center;
         if ('render' in uc) return uc;
         return { ...uc, style: { ...dc?.style, ...uc.style } as NonNullable<typeof uc.style> };
       })(),
       showAnimation: {
-        center: { ...defaultConfig.style.showAnimation.center, ...config.style?.showAnimation?.center },
-        menu: { ...defaultConfig.style.showAnimation.menu, ...config.style?.showAnimation?.menu },
+        center: { ...base.style.showAnimation.center, ...config.style?.showAnimation?.center },
+        menu: { ...base.style.showAnimation.menu, ...config.style?.showAnimation?.menu },
       },
     },
-  };
+  }
+}
+
+export function CCMConfigBuilder(config: Partial<CCMConfig>): CCMConfig;
+export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings: boolean): CCMConfig;
+export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings?: boolean): CCMConfig {
+  const merged: CCMConfig = mergeConfig(config, defaultConfig);
   if (useDefaultKeyBindings) merged.keyBindings = {
     up: 'w',
     right: 'd',

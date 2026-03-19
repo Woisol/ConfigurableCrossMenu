@@ -1,4 +1,4 @@
-import { CCMConfigBuilder, type CCMConfig, type MenuDirection, type MenuItem } from "./config";
+import { CCMConfigBuilder, mergeConfig, type CCMConfig, type MenuDirection, type MenuItem } from "./config";
 // import * as pug from "pug";
 import centerTemplate from './templates/center.pug';
 import menuItemTemplate from './templates/menuItem.pug';
@@ -54,7 +54,8 @@ export class CCM {
     }
 
     if (items) this.items = items;
-    if (config) this.config = { ...this.config, ...config };
+    // 原本用的 call this，但是 ts 的重载误认为两个参数是重载 2 然后需要三个参数(？)还是直接传 this.config
+    if (config) this._config = mergeConfig(config, this._config);
     if (container) this.config.container = container;
 
     if (!this.initialized) {
