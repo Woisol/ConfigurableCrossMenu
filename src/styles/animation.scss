@@ -55,7 +55,7 @@
 
   100% {
     // 比默认高 0.1 试试？
-    filter: opacity(0.6);
+    filter: opacity(0.5);
     transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1)) scale(1);
   }
 }
@@ -67,11 +67,23 @@
   }
 
   100% {
-    // 比默认高 0.1 试试？
-    filter: opacity(0.6);
+    filter: opacity(0.5);
     transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * -1)) translateY(var(--ccm-item-y)) scale(1);
   }
 }
+
+// @keyframes ccm-item-show-rotate {
+//   0% {
+//     filter: opacity(0);
+//     transform: translate(-50%, -50%) rotate(calc(var(--ccm-item-deg) - 180deg)) translateX(0) translateY(0) scale(0.5);
+//   }
+
+//   100% {
+//     // 比默认高 0.1 试试？
+//     filter: opacity(0.5);
+//     transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1)) scale(1);
+//   }
+// }
 
 @keyframes ccm-center-show {
   0% {
@@ -82,5 +94,39 @@
   100% {
     filter: opacity(1);
     transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0) scale(1);
+  }
+}
+
+@keyframes ccm-item-show-ripple {
+  0% {
+    filter: opacity(0);
+    transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(0) translateY(0) scale(0.6);
+  }
+
+  70% {
+    filter: opacity(0.55);
+    transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * 1.05)) translateY(calc(var(--ccm-item-y) * -1.05)) scale(1.05);
+  }
+
+  100% {
+    filter: opacity(0.5);
+    transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(var(--ccm-item-x)) translateY(calc(var(--ccm-item-y) * -1)) scale(1);
+  }
+}
+
+@keyframes ccm-item-show-ripple-down {
+  0% {
+    filter: opacity(0);
+    transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(0) translateY(0) scale(0.6);
+  }
+
+  70% {
+    filter: opacity(0.55);
+    transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * -1.05)) translateY(calc(var(--ccm-item-y) * 1.05)) scale(1.05);
+  }
+
+  100% {
+    filter: opacity(0.5);
+    transform: translate(-50%, -50%) rotate(var(--ccm-item-deg)) translateX(calc(var(--ccm-item-x) * -1)) translateY(var(--ccm-item-y)) scale(1);
   }
 }

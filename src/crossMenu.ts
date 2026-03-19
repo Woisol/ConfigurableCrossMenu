@@ -70,7 +70,8 @@ export class CCM {
       setTimeout(() => {
         // 渲染菜单项
         this.renderMenuItems();
-      }, this.config.style.showAnimation.center.duration);
+        // 好奇怪为什么设 0 了都好像还是慢点……
+      }, Math.max(0, this.config.style.showAnimation.center.duration - 500));
     } catch (error) {
       console.error('Error rendering CCM:', error);
       this.destroy();
@@ -123,6 +124,7 @@ export class CCM {
       v('--ccm-menu-color', cd(style.menu.color)),
       center?.style?.color ? v('color', cd(center.style.color)) : '',
       `}`,
+      style.showAnimation.menu.durationPerItem ? `--ccm-menu-show-duration: ${style.showAnimation.menu.durationPerItem}ms` : '',
       style.showAnimation.center.duration ? `--ccm-center-show-duration: ${style.showAnimation.center.duration}ms` : '',
     ].filter(Boolean).join('\n');
     head.appendChild(styleEle);
@@ -167,14 +169,15 @@ export class CCM {
 
 
     (async () => {
+      const _delay = this.config.style.showAnimation.menu.durationPerItem ?? 0;
       for (const group of groupedItems) {
         if (group.length === 0) continue;
-        await new Promise<void>(r => setTimeout(r, this.config.style.showAnimation.menu.durationPerItem));
+        await new Promise<void>(r => setTimeout(r, _delay));
         if (group.length === 1) {
           this._createMenuItem(group[0]!);
         } else if (group.length === 2) {
           this._createMenuItem(group[0]!, -20, 6);
-          await new Promise<void>(r => setTimeout(r, this.config.style.showAnimation.menu.durationPerItem));
+          await new Promise<void>(r => setTimeout(r, _delay));
           this._createMenuItem(group[1]!, 20, -6);
         }
       }
