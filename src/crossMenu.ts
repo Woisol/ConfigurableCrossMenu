@@ -105,7 +105,7 @@ export class CCM {
     // var __ccm_dispatch_func = function (funcHash:string) {
     //@ts-expect-error windows has no attr
     window.__ccm_dispatch_func = function (funcHash: string) {
-      console.log(`Dispatching function for hash: ${funcHash}`);
+      // console.log(`Dispatching function for hash: ${funcHash}`);
       const func = delegateFunctions[funcHash];
       if (func) {
         func();
@@ -316,8 +316,9 @@ export class CCM {
     } else if (menuItems.length === 1) {
       // 只有一个 up 菜单项，直接触发点击
       const item = menuItems[0]!;
-      // 是的，有 hasChildNodes 的……
-      if (item.hasChildNodes()) {
+      // ~~是的，有 hasChildNodes 的……
+      // hasChildNodes 在有纯文本时也为 true……
+      if (item.firstElementChild) {
         (item.children[0] as HTMLElement).click();
       } else {
         (item as HTMLElement).click();
@@ -375,7 +376,7 @@ export class CCM {
       return false;
     }
 
-    targetItem.hasChildNodes() ? (targetItem.children[0] as HTMLElement)?.click() : (targetItem as HTMLElement)?.click();
+    ((targetItem.firstElementChild ?? targetItem) as HTMLElement)?.click();
     this._ccmClearSelecting(1000);
     return true;
   }
