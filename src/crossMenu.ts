@@ -1,7 +1,7 @@
 import { CCMConfigBuilder, type CCMConfig, type MenuDirection, type MenuItem } from "./config";
 // import * as pug from "pug";
-import { centerTemplate } from './templates/center.pug';
-import { menuItemTemplate } from './templates/menuItem.pug';
+import centerTemplate from './templates/center.pug';
+import menuItemTemplate from './templates/menuItem.pug';
 
 /**
  * 配置化十字菜单库
@@ -45,6 +45,13 @@ export class CCM {
    * container 参数有点多余了但显式放出来又有必要
    */
   render(items: MenuItem[] = [], container?: string, config?: Partial<CCMConfig>): void {
+    // 销毁旧的菜单
+    try {
+      this.destroy();
+    } catch (err) {
+      console.error('Error during previous CCM destroy:', err);
+    }
+
     if (items) this.items = items;
     if (config) this.config = { ...this.config, ...config };
     if (container) this.config.container = container;
@@ -55,12 +62,6 @@ export class CCM {
       this.registerKeyboardEvents()
     }
 
-    // 销毁旧的菜单
-    try {
-      this.destroy();
-    } catch (err) {
-      console.error('Error during previous CCM destroy:', err);
-    }
     try {
       // 渲染菜单项
       this.renderMenuItems();
@@ -70,6 +71,14 @@ export class CCM {
       console.error('Error rendering CCM:', error);
       this.destroy();
     }
+  }
+  /**
+   * 更新 CSS 变量
+   */
+  updateCSSVariables(): void {
+    throw new Error('Not implemented yet');
+    const root = document.documentElement;
+    const style = this.config.style;
   }
 
   /**
@@ -96,6 +105,7 @@ export class CCM {
     // var __ccm_dispatch_func = function (funcHash:string) {
     //@ts-expect-error windows has no attr
     window.__ccm_dispatch_func = function (funcHash: string) {
+      console.log(`Dispatching function for hash: ${funcHash}`);
       const func = delegateFunctions[funcHash];
       if (func) {
         func();
@@ -136,7 +146,16 @@ export class CCM {
    */
   renderCenter(): void {
     // throw new Error('Not implemented yet');
-    const centerHtml = centerTemplate({ ...this.config.style.center });
+    if (this.config.style.center.render && typeof this.config.style.center.render === 'function') {
+      const customCenterEle = this.config.style.center.render()
+      if (customCenterEle instanceof HTMLElement) {
+        this.container.appendChild(customCenterEle);
+      } else {
+        throw new Error('Custom center render function must return an HTMLElement');
+      }
+      return;
+    }
+    const centerHtml = centerTemplate({ title: this.config.style.center.title!.content, subtitle: this.config.style.center.subtitle?.content, icon: this.config.style.center.icon?.url });
     const container = document.querySelector(this.config.container);
     if (!container) {
       throw new Error(`Container element not found for selector: ${this.config.container}`);

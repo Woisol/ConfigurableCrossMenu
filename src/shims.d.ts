@@ -13,15 +13,16 @@
 declare module '*/center.pug' {
   // import type { CenterStyle } from './config';
   // 但是为什么保留一个就正常
-  const centerTemplate: (centerStyle: import('./config').CenterStyle) => string;
-  export { centerTemplate };
+  // ？所以 attr? 和 atrr: xx | undefined 不同的……
+  const centerTemplate: (centerStyle: { title?: string | undefined, subtitle?: string | undefined, icon?: string | undefined, render?: never }) => string;
+  export default centerTemplate;
 }
 declare module '*/menuItem.pug' {
   // 环境模块声明中的导入或导出声明不能通过相对模块名引用模块。ts(2439)
   // import type { MenuItem } from './config';
   // const menuItemTemplate: (itemData: MenuItem) => string;
   const menuItemTemplate: (itemData: Omit<import('./config').MenuItem, 'action'> & { action?: string, rotate?: string, x?: string }) => string;
-  export { menuItemTemplate };
+  export default menuItemTemplate;
 }
 
 declare module '*.scss' {
