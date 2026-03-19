@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ConfigableCrossMenu Demo</title>
+  <title>ConfigurableCrossMenu Demo</title>
   <style>
     * {
       margin: 0;
@@ -42,8 +42,8 @@
       color: #aaa
     }
   </style>
-  <link rel="stylesheet" href="./dist/configable-cross-menu.css">
-  <!-- <script src="./dist/configable-cross-menu.js" defer></script> -->
+  <link rel="stylesheet" href="./dist/configurable-cross-menu.css">
+  <!-- <script src="./dist/configurable-cross-menu.js" defer></script> -->
   <!-- <style>
     :root {
       --ccm-width: 200px;
@@ -165,9 +165,9 @@
       { direction: 'left', label: 'Left', action: () => alert('Left') },
     ]
 
-    import('./dist/configable-cross-menu.js').then(() => {
-      const centerTemplate = window.ConfigableCrossMenu?.centerTemplate;
-      const menuItemTemplate = window.ConfigableCrossMenu?.menuItemTemplate;
+    import('./dist/configurable-cross-menu.js').then(() => {
+      const centerTemplate = window.ConfigurableCrossMenu?.centerTemplate;
+      const menuItemTemplate = window.ConfigurableCrossMenu?.menuItemTemplate;
       if (!centerTemplate) {
         throw new Error('centerTemplate is not available');
       }
@@ -246,11 +246,11 @@
   <script defer>
     // 动态导入并初始化
 
-    import('./dist/configable-cross-menu.js').then(() => {
-      const { CCM } = globalThis.ConfigableCrossMenu || {};
+    import('./dist/configurable-cross-menu.js').then(() => {
+      const { CCM } = globalThis.ConfigurableCrossMenu || {};
 
       if (!CCM) {
-        throw new Error('CCM is not available on globalThis.ConfigableCrossMenu');
+        throw new Error('CCM is not available on globalThis.ConfigurableCrossMenu');
       }
 
       const ccm = new CCM({

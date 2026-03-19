@@ -6,11 +6,11 @@ module.exports = {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    filename: 'configable-cross-menu.js',
+    filename: 'configurable-cross-menu.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     library: {
-      name: 'ConfigableCrossMenu',
+      name: 'ConfigurableCrossMenu',
       type: 'umd',
     },
     globalObject: 'globalThis',
@@ -41,7 +41,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'configable-cross-menu.css'
+      filename: 'configurable-cross-menu.css'
     })
   ]
 };

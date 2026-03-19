@@ -1,8 +1,8 @@
 {
-  "name": "ConfigableCrossMenu",
+  "name": "ConfigurableCrossMenu",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/configable-cross-menu.js",
+  "main": "dist/configurable-cross-menu.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "pnpm run build:types && pnpm run build:bundle",
