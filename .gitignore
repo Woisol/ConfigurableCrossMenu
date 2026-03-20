@@ -1,4 +1,8 @@
 dist
 node_modules
+.npm-cache
+.pnpm-store
+coverage
+storybook-static
 
 project/reference

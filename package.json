@@ -1,29 +1,78 @@
 {
-  "name": "ConfigurableCrossMenu",
+  "name": "@woisol-g/configurable-cross-menu",
   "version": "1.0.0",
-  "description": "",
+  "description": "A highly configurable animated cross menu for web pages.",
   "main": "dist/configurable-cross-menu.js",
   "types": "dist/index.d.ts",
+  "style": "dist/configurable-cross-menu.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/configurable-cross-menu.js"
+    },
+    "./styles.css": "./dist/configurable-cross-menu.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.en.md",
+    "ENGINEERING_REVIEW.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "pnpm run build:types && pnpm run build:bundle",
     "build:bundle": "webpack",
     "build:types": "tsc --emitDeclarationOnly",
     "typecheck": "tsc --noEmit",
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "ci": "pnpm typecheck && pnpm build && pnpm test && pnpm build-storybook && npm pack --dry-run --cache .npm-cache",
+    "prepublishOnly": "pnpm build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "animation",
+    "context-menu",
+    "cross-menu",
+    "menu",
+    "typescript",
+    "ui",
+    "umd"
+  ],
+  "author": "Woisol",
   "license": "ISC",
+  "homepage": "https://github.com/Woisol/ConfigurableCrossMenu#readme",
+  "bugs": {
+    "url": "https://github.com/Woisol/ConfigurableCrossMenu/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Woisol/ConfigurableCrossMenu.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "packageManager": "pnpm@10.7.0",
   "devDependencies": {
+    "@storybook/addon-essentials": "8.6.14",
+    "@storybook/html": "8.6.14",
+    "@storybook/html-webpack5": "8.6.14",
     "@types/pug": "^2.0.10",
     "css-loader": "^7.1.4",
+    "jsdom": "^29.0.0",
     "mini-css-extract-plugin": "^2.10.1",
     "pug-loader": "^2.4.0",
     "sass": "^1.98.0",
     "sass-loader": "^16.0.7",
+    "storybook": "8.6.14",
+    "style-loader": "^4.0.0",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
+    "vitest": "^4.1.0",
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.0"
   },
