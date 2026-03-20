@@ -10,6 +10,10 @@ describe('CCM', () => {
     const ccm = new CCM(
       {
         container: '#ccm-con',
+        keyBindings: {
+          j: 'down',
+          h: 'left',
+        },
         style: {
           center: {
             title: { content: 'C C M' },
@@ -87,11 +91,11 @@ describe('CCM', () => {
     );
     await vi.runAllTimersAsync();
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 's' }));
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'j' }));
     expect(ccm.selectAwaitingDirection).toBe('down');
     expect(container?.querySelectorAll('.ccm-items.selecting')).toHaveLength(2);
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'h' }));
     await vi.advanceTimersByTimeAsync(1000);
     expect(ccm.selectAwaitingDirection).toBeNull();
     expect(container?.querySelectorAll('.ccm-items.selecting')).toHaveLength(0);

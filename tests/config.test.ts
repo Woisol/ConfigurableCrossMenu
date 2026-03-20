@@ -55,10 +55,14 @@ describe('CCMConfigBuilder', () => {
     const config = CCMConfigBuilder({}, true);
 
     expect(config.keyBindings).toEqual({
-      up: 'w',
-      right: 'd',
-      down: 's',
-      left: 'a',
+      w: 'up',
+      d: 'right',
+      s: 'down',
+      a: 'left',
+      arrowup: 'up',
+      arrowright: 'right',
+      arrowdown: 'down',
+      arrowleft: 'left',
     });
   });
 
@@ -66,14 +70,14 @@ describe('CCMConfigBuilder', () => {
     const config = CCMConfigBuilder(
       {
         keyBindings: {
-          up: 'i',
+          i: 'up',
         },
       },
       false,
     );
 
     expect(config.keyBindings).toEqual({
-      up: 'i',
+      i: 'up',
     });
   });
 });
