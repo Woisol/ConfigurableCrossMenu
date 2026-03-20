@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "moduleResolution": "node",
+    "noEmit": false
+  },
+  "include": [
+    ".storybook/**/*.ts",
+    "stories/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ]
+}
