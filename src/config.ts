@@ -66,7 +66,7 @@ export interface CCMConfig {
     },
   }
   // items: MenuItem[],
-  keyBindings: Partial<Record<MenuDirection, string>>
+  keyBindings: Partial<Record<string, MenuDirection>>
 }
 
 
@@ -153,10 +153,14 @@ export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindin
 export function CCMConfigBuilder(config: Partial<CCMConfig>, useDefaultKeyBindings?: boolean): CCMConfig {
   const merged: CCMConfig = mergeConfig(config, defaultConfig);
   if (useDefaultKeyBindings) merged.keyBindings = {
-    up: 'w',
-    right: 'd',
-    down: 's',
-    left: 'a',
+    w: 'up',
+    d: 'right',
+    s: 'down',
+    a: 'left',
+    arrowup: 'up',
+    arrowright: 'right',
+    arrowdown: 'down',
+    arrowleft: 'left',
   };
   return merged;
 }

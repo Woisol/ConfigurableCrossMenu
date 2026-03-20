@@ -300,18 +300,18 @@ export class CCM {
   registerKeyboardEvents(): void {
     document.addEventListener('keydown', (event) => {
       const key = event.key.toLowerCase();
-      const keyMap: { [key: string]: MenuDirection } = {
-        w: 'up',
-        arrowup: 'up',
-        d: 'right',
-        arrowright: 'right',
-        s: 'down',
-        arrowdown: 'down',
-        a: 'left',
-        arrowleft: 'left'
-      };
+      // const keyMap: { [key: string]: MenuDirection } = {
+      //   w: 'up',
+      //   arrowup: 'up',
+      //   d: 'right',
+      //   arrowright: 'right',
+      //   s: 'down',
+      //   arrowdown: 'down',
+      //   a: 'left',
+      //   arrowleft: 'left'
+      // };
 
-      const direction = keyMap[key];
+      const direction = this.config.keyBindings[key];
       if (direction) {
         event.preventDefault();
         this._ccmHandlePress(direction);
