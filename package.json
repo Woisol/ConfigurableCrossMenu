@@ -31,7 +31,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "ci": "pnpm typecheck && pnpm build && pnpm test && pnpm build-storybook && npm pack --dry-run --cache .npm-cache",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "prepare": "husky"
   },
   "keywords": [
     "animation",
@@ -77,6 +78,7 @@
     "webpack-cli": "^7.0.0"
   },
   "dependencies": {
+    "husky": "^9.1.7",
     "pug": "^3.0.4"
   }
 }
