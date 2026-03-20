@@ -46,36 +46,45 @@ export class CCM {
    * container 参数有点多余了但显式放出来又有必要
    */
   render(items: MenuItem[] = [], container?: string, config?: Partial<CCMConfig>): void {
-    // 销毁旧的菜单
-    try {
-      this.destroy();
-    } catch (err) {
-      console.error('Error during previous CCM destroy:', err);
-    }
+    const init = async () => {
+      // 销毁旧的菜单
+      try {
+        this.destroy();
+      } catch (err) {
+        console.error('Error during previous CCM destroy:', err);
+      }
 
-    if (items) this.items = items;
-    // 原本用的 call this，但是 ts 的重载误认为两个参数是重载 2 然后需要三个参数(？)还是直接传 this.config
-    if (config) this._config = mergeConfig(config, this._config);
-    if (container) this.config.container = container;
+      if (items) this.items = items;
+      // 原本用的 call this，但是 ts 的重载误认为两个参数是重载 2 然后需要三个参数(？)还是直接传 this.config
+      if (config) this._config = mergeConfig(config, this._config);
+      if (container) this.config.container = container;
 
-    if (!this.initialized) {
-      this.initialized = true;
-      this.updateCSS();
-      this.registerParallaxEffect();
-      this.registerKeyboardEvents()
-    }
+      if (!this.initialized) {
+        this.initialized = true;
+        this.updateCSS();
+        // this.registerParallaxEffect();
+        this.registerKeyboardEvents()
+      }
 
-    try {
-      // 渲染中心元素
-      this.renderCenter();
-      setTimeout(() => {
-        // 渲染菜单项
-        this.renderMenuItems();
-        // 好奇怪为什么设 0 了都好像还是慢点……
-      }, Math.max(0, this.config.style.showAnimation.center.duration - 500));
-    } catch (error) {
-      console.error('Error rendering CCM:', error);
-      this.destroy();
+      try {
+        // 渲染中心元素
+        this.renderCenter();
+        setTimeout(() => {
+          // 渲染菜单项
+          this.renderMenuItems();
+          // 好奇怪为什么设 0 了都好像还是慢点……
+        }, Math.max(0, this.config.style.showAnimation.center.duration - 500));
+      } catch (error) {
+        console.error('Error rendering CCM:', error);
+        this.destroy();
+      }
+
+    };
+    // 哦哦是喔已经加载完了哈哈
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
     }
   }
   /**
@@ -227,68 +236,60 @@ export class CCM {
    * 视差效果注册
    */
   registerParallaxEffect(): void {
-    const init = async () => {
-      const parallaxCon = document.body;
-      // const this.container = this.container;
-      await retry(() => Promise.resolve(this.container), 10, 500);
-      if (!parallaxCon || !this.container) {
-        throw new Error('Parallax container or CCM container not found');
-      };
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      if (reduceMotion || !canHover) return;
-
-      let latestPointerEvent: PointerEvent | null = null;
-      let ticking = false;
-
-      const update = () => {
-        if (!latestPointerEvent) return;
-
-        const rect = parallaxCon.getBoundingClientRect();
-        const nx = ((latestPointerEvent.clientX - rect.left) / rect.width - 0.5) * 2;
-        const ny = ((latestPointerEvent.clientY - rect.top) / rect.height - 0.5) * 2;
-
-        this.container.style.setProperty('--ccm-parallax-x', `${(nx * 80).toFixed(2)}px`);
-        this.container.style.setProperty('--ccm-parallax-y', `${(ny * 80).toFixed(2)}px`);
-        this.container.style.setProperty('--ccm-tilt-x', `${(nx * 25).toFixed(2)}deg`);
-        this.container.style.setProperty('--ccm-tilt-y', `${(-ny * 20).toFixed(2)}deg`);
-      };
-
-      const reset = () => {
-        this.container.style.setProperty('--ccm-parallax-x', '0px');
-        this.container.style.setProperty('--ccm-parallax-y', '0px');
-        this.container.style.setProperty('--ccm-tilt-x', '0deg');
-        this.container.style.setProperty('--ccm-tilt-y', '0deg');
-      };
-
-      const onPointerMove = (event: PointerEvent) => {
-        latestPointerEvent = event;
-        if (ticking) return;
-
-        ticking = true;
-        requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
-      };
-
-      const onPointerLeave = () => {
-        latestPointerEvent = null;
-        requestAnimationFrame(reset);
-      };
-
-      // 据说如果只是简单变量读写浏览器已经做了优化可以不加 requestAnimationFrame
-      // 还是得加，不加动画抽搐
-      parallaxCon.addEventListener('pointermove', onPointerMove, { passive: true });
-      parallaxCon.addEventListener('pointerleave', onPointerLeave, { passive: true });
+    const parallaxCon = document.body;
+    // const this.container = this.container;
+    if (!parallaxCon || !this.container) {
+      throw new Error('Parallax container or CCM container not found');
     };
-    // 哦哦是喔已经加载完了哈哈
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reduceMotion || !canHover) return;
+
+    let latestPointerEvent: PointerEvent | null = null;
+    let ticking = false;
+
+    const update = () => {
+      if (!latestPointerEvent) return;
+
+      const rect = parallaxCon.getBoundingClientRect();
+      const nx = ((latestPointerEvent.clientX - rect.left) / rect.width - 0.5) * 2;
+      const ny = ((latestPointerEvent.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      this.container.style.setProperty('--ccm-parallax-x', `${(nx * 80).toFixed(2)}px`);
+      this.container.style.setProperty('--ccm-parallax-y', `${(ny * 80).toFixed(2)}px`);
+      this.container.style.setProperty('--ccm-tilt-x', `${(nx * 25).toFixed(2)}deg`);
+      this.container.style.setProperty('--ccm-tilt-y', `${(-ny * 20).toFixed(2)}deg`);
+    };
+
+    const reset = () => {
+      this.container.style.setProperty('--ccm-parallax-x', '0px');
+      this.container.style.setProperty('--ccm-parallax-y', '0px');
+      this.container.style.setProperty('--ccm-tilt-x', '0deg');
+      this.container.style.setProperty('--ccm-tilt-y', '0deg');
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      latestPointerEvent = event;
+      if (ticking) return;
+
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    };
+
+    const onPointerLeave = () => {
+      latestPointerEvent = null;
+      requestAnimationFrame(reset);
+    };
+
+    // 据说如果只是简单变量读写浏览器已经做了优化可以不加 requestAnimationFrame
+    // 还是得加，不加动画抽搐
+    parallaxCon.addEventListener('pointermove', onPointerMove, { passive: true });
+    parallaxCon.addEventListener('pointerleave', onPointerLeave, { passive: true });
+
   }
 
   /**

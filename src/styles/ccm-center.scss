@@ -3,11 +3,14 @@
   min-height: 150px;
   width: fit-content;
   height: fit-content;
-  position: relative;
+  position: absolute;
   overflow: hidden;
   // isolation: isolate;
   z-index: 2;
   padding: 12px 20px;
+  // margin: 0 auto;
+  left: 50%;
+  top: 50%;
   // padding: min(calc(var(--ccm-center-radius) - 8), 12px) 20px;
   border: var(--ccm-center-border-size, 0px) solid var(--ccm-center-border-color, #333);
   border-radius: var(--ccm-center-radius, 20px);
@@ -18,7 +21,7 @@
   // opacity: var(--ccm-bg-opacity, 1);
   -webkit-backdrop-filter: blur(var(--ccm-bg-blur, 0px));
   backdrop-filter: blur(var(--ccm-bg-blur, 0px));
-  transform: translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0);
+  transform: translate(-50%, -50%) translate3d(calc(var(--ccm-parallax-x) * -0.08), calc(var(--ccm-parallax-y) * -0.08), 0);
   transition: transform 220ms ease-out, box-shadow 220ms ease-out;
   display: flex;
   gap: 0.5em;
@@ -26,6 +29,7 @@
   justify-content: center;
   align-items: center;
   animation: ccm-center-show var(--ccm-center-show-duration, 500ms) cubic-bezier(0.30, 0.30, 0.40, 1.15) none;
+  pointer-events: none;
 
   &.column {
     gap: 0.5em;

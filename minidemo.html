@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCM Demo</title>
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.css" />
+  <script
+    src="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .info {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      color: #333;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .info p {
+      margin: 5px 0;
+    }
+  </style>
+
+  <script>
+    const { CCM } = globalThis.ConfigurableCrossMenu || {};
+
+    if (!CCM) {
+      throw new Error('ConfigurableCrossMenu failed to load.');
+    }
+
+    const ccm = new CCM(
+      {
+        container: '#ccm-con',
+        style: {
+          center: {
+            title: { content: 'C C M' },
+            subtitle: { content: 'Configurable Cross Menu' },
+            style: { direction: 'column' },
+          },
+        },
+      },
+      true,
+    );
+
+    ccm.render([
+      { direction: 'up', label: 'Home', url: '#home' },
+      { direction: 'right', label: 'About', url: '#about' },
+      { direction: 'down', label: 'Contact', url: '#contact' },
+      { direction: 'left', label: 'Settings', action: () => console.log('Settings') },
+    ]);
+  </script>
+</head>
+
+<body>
+  <div id="ccm-con"></div>
+  <div class="info">
+    <p>🎮 Controls:</p>
+    <p>Click on menu items or use:</p>
+    <p><kbd>W</kbd> / <kbd>Up</kbd> - Up</p>
+    <p><kbd>D</kbd> / <kbd>Right</kbd> - Right</p>
+    <p><kbd>S</kbd> / <kbd>Down</kbd> - Down</p>
+    <p><kbd>A</kbd> / <kbd>Left</kbd> - Left</p>
+  </div>
+
+</body>
+
+</html>

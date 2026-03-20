@@ -17,23 +17,22 @@
 - 首次发布清单：[docs/publish-checklist.md](./docs/publish-checklist.md)
 - 英文副文档：[README.en.md](./README.en.md)
 
-## 安装
+## 快速开始
+
+
+### 1. 在构建工具项目中使用
 
 推荐的 npm 包名是：
 
 ```bash
-pnpm add @woisol-g/configurable-cross-menu
+pnpm i @woisol-g/configurable-cross-menu
 ```
 
 如果你使用 npm：
 
 ```bash
-npm install @woisol-g/configurable-cross-menu
+npm i @woisol-g/configurable-cross-menu
 ```
-
-## 快速开始
-
-### 1. 在构建工具项目中使用
 
 ```ts
 import { CCM } from '@woisol-g/configurable-cross-menu';
@@ -62,61 +61,49 @@ ccm.render([
 ]);
 ```
 
+在 html 中提供一个对应 selector（例如上面 container 配置项的 `#ccm-con`）的容器：
+
 ```html
 <div id="ccm-con"></div>
 ```
 
-### 2. 在浏览器中直接引入
+另外为了确保居中样式正确，需要确保 body 存在下面的样式
+```css
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+这部分样式没有内置在组件包里，以免和你的项目样式发生冲突。
 
-发布后可以直接使用 jsDelivr：
+### 2. CDN 引入
+
+可以直接使用 jsDelivr：
 
 ```html
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CCM Demo</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.css"
-    />
-  </head>
-  <body>
-    <div id="ccm-con"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.js"></script>
-    <script>
-      const { CCM } = globalThis.ConfigurableCrossMenu || {};
-
-      if (!CCM) {
-        throw new Error('ConfigurableCrossMenu failed to load.');
-      }
-
-      const ccm = new CCM(
-        {
-          container: '#ccm-con',
-          style: {
-            center: {
-              title: { content: 'C C M' },
-              subtitle: { content: 'Configurable Cross Menu' },
-              style: { direction: 'column' },
-            },
-          },
-        },
-        true,
-      );
-
-      ccm.render([
-        { direction: 'up', label: 'Home', url: '#home' },
-        { direction: 'right', label: 'About', url: '#about' },
-        { direction: 'down', label: 'Contact', url: '#contact' },
-        { direction: 'left', label: 'Settings', action: () => console.log('Settings') },
-      ]);
-    </script>
-  </body>
-</html>
+<head>
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.css" />
+  <!-- 要求外部的最小样式，由于可能和您的项目冲突不在包中内置 -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<div id="ccm-con"></div>
 ```
+
+项目中提供了一个最小配置的示例在 [minidemo.html](./minidemo.html)，你应当可以直接打开它来查看效果和参考用法。
+
+### 在页面上添加其它元素
+
+目前由于 CCM 在页面上居中的方式是使用 absolute 结合 100svw 100svh 的 div.ccm-con 容器定位，如果需要添加额外内容，请同样通过 absolute 或 fixed 等不占用文档流的方式添加，除非你希望它们显示在页面下方需要滚动才能看到。\
+也不建议直接在 CCM 的容器里添加内容，因为 CCM 在进行渲染时会先将其清空……
+
 
 ## 公开 API
 
@@ -140,22 +127,22 @@ ccm.render([
 
 下面是当前版本最常用的配置字段说明。更完整的默认值可以参考 [`src/config.ts`](./src/config.ts)。
 
-| 字段 | 说明 |
-| --- | --- |
-| `container` | 菜单挂载容器选择器，默认是 `#ccm-con` |
-| `startingDirections` | 当前版本中已存在于配置类型中，但暂未形成完整对外行为 |
-| `style.width` | 菜单整体宽度相关变量 |
-| `style.background.menuColor` | 菜单背景色，支持字符串或 `{ light, dark }` |
-| `style.background.centerColor` | 中心区域背景色 |
-| `style.background.opacity` | 背景透明度 |
-| `style.background.blur` | 背景模糊强度 |
-| `style.center` | 中心区域配置，支持默认内容或自定义渲染 |
-| `style.menu.length` | 菜单项伸展长度 |
-| `style.menu.color` | 菜单项前景色 |
-| `style.menu.radius` | 菜单项圆角 |
-| `style.showAnimation.center.duration` | 中心区域展示动画时长 |
-| `style.showAnimation.menu.durationPerItem` | 菜单项分批出现的间隔时长 |
-| `keyBindings` | 类型中已预留，当前实现仍以内置键位逻辑为主 |
+| 字段                                       | 说明                                                 |
+| ------------------------------------------ | ---------------------------------------------------- |
+| `container`                                | 菜单挂载容器选择器，默认是 `#ccm-con`                |
+| `startingDirections`                       | 当前版本中已存在于配置类型中，但暂未形成完整对外行为 |
+| `style.width`                              | 菜单整体宽度相关变量                                 |
+| `style.background.menuColor`               | 菜单背景色，支持字符串或 `{ light, dark }`           |
+| `style.background.centerColor`             | 中心区域背景色                                       |
+| `style.background.opacity`                 | 背景透明度                                           |
+| `style.background.blur`                    | 背景模糊强度                                         |
+| `style.center`                             | 中心区域配置，支持默认内容或自定义渲染               |
+| `style.menu.length`                        | 菜单项伸展长度                                       |
+| `style.menu.color`                         | 菜单项前景色                                         |
+| `style.menu.radius`                        | 菜单项圆角                                           |
+| `style.showAnimation.center.duration`      | 中心区域展示动画时长                                 |
+| `style.showAnimation.menu.durationPerItem` | 菜单项分批出现的间隔时长                             |
+| `keyBindings`                              | 类型中已预留，当前实现仍以内置键位逻辑为主           |
 
 ## 菜单项格式
 
@@ -185,16 +172,16 @@ ccm.render([
 
 ### 菜单项字段说明
 
-| 字段 | 说明 |
-| --- | --- |
-| `direction` | `up` / `right` / `down` / `left` |
-| `label` | 菜单文本 |
-| `size` | 字号或尺寸 |
-| `bgColor` | 单项背景色 |
-| `offset` | 相对中心的偏移距离 |
-| `hoverOffset` | hover 时额外偏移 |
-| `url` | 链接型菜单项使用 |
-| `action` | 动作型菜单项使用 |
+| 字段          | 说明                             |
+| ------------- | -------------------------------- |
+| `direction`   | `up` / `right` / `down` / `left` |
+| `label`       | 菜单文本                         |
+| `size`        | 字号或尺寸                       |
+| `bgColor`     | 单项背景色                       |
+| `offset`      | 相对中心的偏移距离               |
+| `hoverOffset` | hover 时额外偏移                 |
+| `url`         | 链接型菜单项使用                 |
+| `action`      | 动作型菜单项使用                 |
 
 ## 自定义中心区域
 
@@ -218,18 +205,16 @@ const ccm = new CCM({
 
 ## 键盘操作
 
-当前版本内置了以下键位：
+可以通过 CCM 构造函数中 `useDefaultKeyBindings` 参数启用默认的键盘操作，目前为：
 
 - `W` / `ArrowUp`
 - `D` / `ArrowRight`
 - `S` / `ArrowDown`
 - `A` / `ArrowLeft`
 
-已知情况：
+你也可以手动在 config.keyBindings 中覆盖默认键位。
 
-- 类型系统中存在 `keyBindings` 配置
-- 当前实际逻辑仍然使用内置硬编码键位
-- 这部分已在工程评审文档中列为重点改进项
+配置键位以后便可以通过键盘操作来选择菜单项，触发对应的链接或动作。
 
 ## 本地开发
 
