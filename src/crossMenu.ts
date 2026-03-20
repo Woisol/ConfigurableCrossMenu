@@ -28,8 +28,14 @@ export class CCM {
 
   get container() {
     // 666 isSameNode
-    if (!this._containerEle || !(document.querySelector(this.config.container) as HTMLElement)?.isSameNode(this._containerEle)) {
-      this._containerEle = document.querySelector(this.config.container) as HTMLElement;
+    // if (!this._containerEle || !(document.querySelector(this.config.container) as HTMLElement)?.isSameNode(this._containerEle)) {
+    //   this._containerEle = document.querySelector(this.config.container) as HTMLElement;
+    // }
+    if (!this._containerEle || !document.querySelector(".ccm-con")) {
+      //！ 一层 div 视差效果就不会导致 menu 悬浮抽搐了？？？
+      this._containerEle = document.createElement('div');
+      this._containerEle.classList.add('ccm-con');
+      document.querySelector(this.config.container)?.appendChild(this._containerEle);
     }
     return this._containerEle;
   }
@@ -62,7 +68,8 @@ export class CCM {
       if (!this.initialized) {
         this.initialized = true;
         this.updateCSS();
-        // this.registerParallaxEffect();
+        if ('style' in this.config.style.center && this.config.style.center.style?.parallaxEffect)
+          this.registerParallaxEffect();
         this.registerKeyboardEvents()
       }
 
@@ -92,7 +99,9 @@ export class CCM {
    */
   updateCSS(): void {
     // throw new Error('Not implemented yet');
-    this.container.classList.add('ccm-con');
+    // this.container.classList.add('ccm-con');
+
+    document.querySelector(this.config.container)!.classList.add('ccm-full-page');
 
     const head = document.head;
     const style = this.config.style;
@@ -222,14 +231,7 @@ export class CCM {
       return;
     }
     const centerHtml = centerTemplate({ title: this.config.style.center.title!.content, subtitle: this.config.style.center.subtitle?.content, icon: this.config.style.center.icon?.url });
-    const container = document.querySelector(this.config.container);
-    if (!container) {
-      throw new Error(`Container element not found for selector: ${this.config.container}`);
-    }
-    // if (container.hasChildNodes()) {
-    //   console.warn(`Container element for selector: ${this.config.container} is not empty. Existing content will be preserved.`);
-    // }
-    container.insertAdjacentHTML('beforeend', centerHtml);
+    this.container.insertAdjacentHTML('beforeend', centerHtml);
   }
 
   /**

@@ -8,7 +8,7 @@ interface CenterConfig {
   icon?: { url: string; size?: CSSSize, radius?: CSSSize };
   title?: { content: string; size?: CSSSize, color?: CSSColor };
   subtitle?: { content: string; size?: CSSSize, color?: CSSColor };
-  style?: { direction?: 'column' | 'row', color: CSSColor, borderSize?: CSSSize, radius?: CSSSize }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
+  style?: { direction?: 'column' | 'row', color: CSSColor, borderSize?: CSSSize, radius?: CSSSize, parallaxEffect?: boolean }; // 图标和文字的排列方式，默认为 'column'（图标在上，文字在下），'row'（图标在左，文字在右）
 }
 
 interface CenterCustom {
@@ -18,6 +18,7 @@ interface CenterCustom {
 
 // 用 discriminated union 替代 union of objects
 export type CenterStyle =
+  // | CenterConfig
   | (CenterConfig & { render?: never })
   | CenterCustom;
 
@@ -88,7 +89,7 @@ const defaultConfig = {
       title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: '5%' },
       subtitle: { content: 'Configurable Cross Menu', size: 12, color: { light: 'hsl(0, 0%, 50%)', dark: 'hsl(0, 0%, 80%)' } },
       //TODO color 没有实现
-      style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: 20 }, // borderSize: 2, borderColor: 'hsl(0, 0%, 80%)',
+      style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: 20, parallaxEffect: true }, // borderSize: 2, borderColor: 'hsl(0, 0%, 80%)',
     },
     menu: {
       length: 100,

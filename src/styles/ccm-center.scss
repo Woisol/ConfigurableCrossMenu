@@ -29,6 +29,7 @@
   justify-content: center;
   align-items: center;
   animation: ccm-center-show var(--ccm-center-show-duration, 500ms) cubic-bezier(0.30, 0.30, 0.40, 1.15) none;
+  // 依然不能去否则在 center 处 hover 依然抽搐
   pointer-events: none;
 
   &.column {
