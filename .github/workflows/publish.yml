@@ -1,4 +1,4 @@
-name: Publish
+name: Publish CCM to npm
 
 on:
   workflow_dispatch:
