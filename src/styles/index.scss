@@ -3,10 +3,14 @@
 @use 'ccm-items' as items;
 
 .ccm-full-page {
+  width: 100svw;
   min-height: 100svh;
   max-height: 100svh;
   overflow: hidden;
   // height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: center;

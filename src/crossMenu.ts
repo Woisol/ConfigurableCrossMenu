@@ -238,7 +238,7 @@ export class CCM {
    * 视差效果注册
    */
   registerParallaxEffect(): void {
-    const parallaxCon = document.body;
+    const parallaxCon = document.querySelector(this.config.container) as HTMLElement;
     // const this.container = this.container;
     if (!parallaxCon || !this.container) {
       throw new Error('Parallax container or CCM container not found');
