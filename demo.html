@@ -41,6 +41,14 @@
     .dark .info {
       color: #aaa
     }
+
+    button {
+      padding: 4px 12px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      cursor: pointer;
+    }
   </style>
   <link rel="stylesheet" href="./dist/configurable-cross-menu.css">
   <!-- <script src="./dist/configurable-cross-menu.js" defer></script> -->
@@ -81,6 +89,7 @@
 </head>
 
 <body class="dark.not">
+  <button onclick="ccmToggle()">≡ 开关</button>
   <p>abc</p>
   <div id="ccm-con">
     <!-- deg 也必须设置否则后续的 transform 不生效 -->
@@ -253,6 +262,8 @@
       if (!CCM) {
         throw new Error('CCM is not available on globalThis.ConfigurableCrossMenu');
       }
+
+      window.ccmToggle = () => ccm.toggle();
 
       const ccm = new CCM({
         style: {

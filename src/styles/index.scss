@@ -14,6 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: -9999;
 }
 
 .ccm-con {
@@ -69,6 +70,20 @@
 
   .ccm-items {
     @extend items !optional;
+  }
+
+  &.close {
+    .ccm-center {
+      animation: ccm-center-hide 0.5s ease-out forwards;
+    }
+
+    .ccm-items {
+      animation: ccm-item-hide-rotate 0.5s ease-out forwards;
+
+      &.down {
+        animation: ccm-item-hide-rotate-down 1s cubic-bezier(0.30, 0.30, 0.40, 1.15) forwards;
+      }
+    }
   }
 
 }

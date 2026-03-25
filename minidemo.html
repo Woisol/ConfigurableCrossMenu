@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CCM Demo</title>
   <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.css" />
+    href="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@1.03/dist/configurable-cross-menu.css" />
   <script
-    src="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@latest/dist/configurable-cross-menu.js"></script>
+    src="https://cdn.jsdelivr.net/npm/@woisol-g/configurable-cross-menu@1.03/dist/configurable-cross-menu.js"></script>
   <style>
     body {
       margin: 0;
@@ -27,6 +27,14 @@
 
     .info p {
       margin: 5px 0;
+    }
+
+    button {
+      padding: 4px 12px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      cursor: pointer;
     }
   </style>
 
@@ -51,6 +59,8 @@
       true,
     );
 
+    window.ccmToggle = () => ccm.toggle();
+
     ccm.render([
       { direction: 'up', label: 'Home', url: '#home' },
       { direction: 'right', label: 'About', url: '#about' },
@@ -63,6 +73,7 @@
 <body>
   <h3>这里可以放其它内容</h3>
   <p>abc</p>
+  <button onclick="ccmToggle()">≡ 开关</button>
   <div id="ccm-con"></div>
   <div class="info">
     <p>🎮 Controls:</p>

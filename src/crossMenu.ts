@@ -31,6 +31,8 @@ export class CCM {
     // if (!this._containerEle || !(document.querySelector(this.config.container) as HTMLElement)?.isSameNode(this._containerEle)) {
     //   this._containerEle = document.querySelector(this.config.container) as HTMLElement;
     // }
+
+    // 明确，container 依然是 .ccm-con，config.container 是外层的 ccm-full-page
     if (!this._containerEle || !document.querySelector(".ccm-con")) {
       //！ 一层 div 视差效果就不会导致 menu 悬浮抽搐了？？？
       this._containerEle = document.createElement('div');
@@ -94,6 +96,15 @@ export class CCM {
       init();
     }
   }
+
+  /**
+   * toggle 显示隐藏
+   */
+  toggle(): void {
+    if (document.readyState !== 'complete') return
+    this.container.classList.toggle('close')
+  }
+
   /**
    * 更新 CSS
    */
