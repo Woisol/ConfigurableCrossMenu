@@ -18,6 +18,10 @@ export class CCM {
   private initialized = false;
   private _containerEle: HTMLElement | null = null;
 
+  private parallaxPointerMove: ((event: PointerEvent) => void) | null = null;
+  private parallaxPointerLeave: (() => void) | null = null;
+  private keydownHandler: ((event: KeyboardEvent) => void) | null = null;
+
   get config(): CCMConfig {
     return this._config;
   }
@@ -101,8 +105,32 @@ export class CCM {
    * toggle 显示隐藏
    */
   toggle(): void {
+    // if (document.readyState === 'loading') return
+    //~~ 用这个导致测试失败 并非
     if (document.readyState !== 'complete') return
-    this.container.classList.toggle('close')
+    if (this.container.classList.contains('close')) {
+      this._open();
+    } else {
+      this._close();
+    }
+  }
+  /**
+   * 关闭
+   */
+  _close(): void {
+    this.container.classList.add('close');
+    this.unregisterParallaxEffect();
+    this.unregisterKeyboardEvents();
+  }
+  /**
+   * 打开
+   */
+  _open(): void {
+    this.container.classList.remove('close');
+    if ('style' in this.config.style.center && this.config.style.center.style?.parallaxEffect) {
+      this.registerParallaxEffect();
+    }
+    this.registerKeyboardEvents();
   }
 
   /**
@@ -282,7 +310,7 @@ export class CCM {
       this.container.style.setProperty('--ccm-tilt-y', '0deg');
     };
 
-    const onPointerMove = (event: PointerEvent) => {
+    this.parallaxPointerMove = (event: PointerEvent) => {
       latestPointerEvent = event;
       if (ticking) return;
 
@@ -293,16 +321,32 @@ export class CCM {
       });
     };
 
-    const onPointerLeave = () => {
+    this.parallaxPointerLeave = () => {
       latestPointerEvent = null;
       requestAnimationFrame(reset);
     };
 
     // 据说如果只是简单变量读写浏览器已经做了优化可以不加 requestAnimationFrame
     // 还是得加，不加动画抽搐
-    parallaxCon.addEventListener('pointermove', onPointerMove, { passive: true });
-    parallaxCon.addEventListener('pointerleave', onPointerLeave, { passive: true });
-
+    parallaxCon.addEventListener('pointermove', this.parallaxPointerMove, { passive: true });
+    parallaxCon.addEventListener('pointerleave', this.parallaxPointerLeave, { passive: true });
+  }
+  /**
+   * 注销
+   */
+  unregisterParallaxEffect(): void {
+    const parallaxCon = document.querySelector(this.config.container) as HTMLElement;
+    if (!parallaxCon || !this.container) {
+      throw new Error('Parallax container or CCM container not found');
+    }
+    if (this.parallaxPointerMove) {
+      parallaxCon.removeEventListener('pointermove', this.parallaxPointerMove);
+      this.parallaxPointerMove = null;
+    }
+    if (this.parallaxPointerLeave) {
+      parallaxCon.removeEventListener('pointerleave', this.parallaxPointerLeave);
+      this.parallaxPointerLeave = null;
+    }
   }
 
   /**
@@ -312,7 +356,7 @@ export class CCM {
   selectAwaitingTimer: ReturnType<typeof setTimeout> | null = null;
   selectAwaitDelayMS = 5000;
   registerKeyboardEvents(): void {
-    document.addEventListener('keydown', (event) => {
+    this.keydownHandler = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
       // const keyMap: { [key: string]: MenuDirection } = {
       //   w: 'up',
@@ -330,10 +374,20 @@ export class CCM {
         event.preventDefault();
         this._ccmHandlePress(direction);
       }
-
-    });
+    }
+    document.addEventListener('keydown', this.keydownHandler);
 
   }
+  /**
+   * 注销
+   */
+  unregisterKeyboardEvents(): void {
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+      this.keydownHandler = null;
+    }
+  }
+
   /**
    * 通用清理选择状态工具函数
   */
@@ -461,9 +515,16 @@ export class CCM {
    * 销毁菜单
    */
   destroy(): void {
+    this.initialized = false;
+    // 是的没错……在销毁 innerHTML 以后以后再访问 container 就新建了导致测试不通过
+    this.unregisterParallaxEffect();
+    this.unregisterKeyboardEvents();
+
     const container = document.querySelector(this.config.container);
     if (!container) return;
+
     container.innerHTML = '';
+    this._containerEle = null;
 
     this.selectAwaitingDirection = null;
 
