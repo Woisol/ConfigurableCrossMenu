@@ -77,6 +77,7 @@ export class CCM {
         if ('style' in this.config.style.center && this.config.style.center.style?.parallaxEffect)
           this.registerParallaxEffect();
         this.registerKeyboardEvents()
+        this.registerFullPageClickToClose();
       }
 
       try {
@@ -121,11 +122,13 @@ export class CCM {
     this.container.classList.add('close');
     this.unregisterParallaxEffect();
     this.unregisterKeyboardEvents();
+    document.querySelector(this.config.container)?.classList.remove('blur');
   }
   /**
    * 打开
    */
   _open(): void {
+    document.querySelector(this.config.container)?.classList.add('blur');
     this.container.classList.remove('close');
     if ('style' in this.config.style.center && this.config.style.center.style?.parallaxEffect) {
       this.registerParallaxEffect();
@@ -140,7 +143,11 @@ export class CCM {
     // throw new Error('Not implemented yet');
     // this.container.classList.add('ccm-con');
 
-    document.querySelector(this.config.container)!.classList.add('ccm-full-page');
+    const configContainerEle = document.querySelector(this.config.container)!;
+    configContainerEle.classList.add('ccm-full-page');
+    if (this.config.style.background.fullScreenBlur)
+      configContainerEle.classList.add('blur');
+
 
     const head = document.head;
     const style = this.config.style;
@@ -181,9 +188,9 @@ export class CCM {
       center?.style?.color ? v('--ccm-center-border-color', cd(center.style.color)) : '',
       v('--ccm-menu-color', cd(style.menu.color)),
       center?.style?.color ? v('color', cd(center.style.color)) : '',
-      `}`,
       style.showAnimation.menu.durationPerItem ? `--ccm-menu-show-duration: ${style.showAnimation.menu.durationPerItem}ms` : '',
       style.showAnimation.center.duration ? `--ccm-center-show-duration: ${style.showAnimation.center.duration}ms` : '',
+      `}`,
     ].filter(Boolean).join('\n');
     head.appendChild(styleEle);
 
@@ -210,6 +217,7 @@ export class CCM {
         const funcHash = Math.random().toString(36).substr(2, 9);
         delegateFunctions[funcHash] = item.action;
         // @ts-expect-error bad type
+        // event.stopPropagation();
         item.action = `__ccm_dispatch_func('${funcHash}')`;
       }
     });
@@ -271,6 +279,35 @@ export class CCM {
     }
     const centerHtml = centerTemplate({ title: this.config.style.center.title!.content, subtitle: this.config.style.center.subtitle?.content, icon: this.config.style.center.icon?.url });
     this.container.insertAdjacentHTML('beforeend', centerHtml);
+  }
+
+  private fullPageCloseHandler: ((event: Event) => void) | null = null;
+
+  /**
+   * full-page 点击关闭
+   */
+  registerFullPageClickToClose(): void {
+    const parent = document.querySelector(this.config.container);
+    if (!parent) return;
+
+    this.fullPageCloseHandler = (event: Event) => {
+      // 只有点击背景容器本身时才触发关闭，排除其子元素（如菜单项）的点击
+      if (event.target === parent) {
+        this._close();
+      }
+    };
+    parent.addEventListener('click', this.fullPageCloseHandler);
+  }
+
+  /**
+   * 注销全屏点击关闭
+   */
+  unregisterFullPageClickToClose(): void {
+    const parent = document.querySelector(this.config.container);
+    if (parent && this.fullPageCloseHandler) {
+      parent.removeEventListener('click', this.fullPageCloseHandler);
+      this.fullPageCloseHandler = null;
+    }
   }
 
   /**
@@ -519,6 +556,7 @@ export class CCM {
     // 是的没错……在销毁 innerHTML 以后以后再访问 container 就新建了导致测试不通过
     this.unregisterParallaxEffect();
     this.unregisterKeyboardEvents();
+    this.unregisterFullPageClickToClose();
 
     const container = document.querySelector(this.config.container);
     if (!container) return;

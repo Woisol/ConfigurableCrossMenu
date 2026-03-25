@@ -15,7 +15,28 @@
   align-items: center;
   justify-content: center;
   z-index: -9999;
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(0px);
+  transition: background-color var(--ccm-center-show-duration, .3s) ease-out, backdrop-filter var(--ccm-center-show-duration, .3s) ease-out;
+
+  &.blur {
+    z-index: 999;
+    background: rgba(255, 255, 255, .4);
+    backdrop-filter: blur(4px);
+  }
 }
+
+// .ccm-blur-backdrop {
+//   width: 100lvw;
+//   height: 100lvh;
+//   position: fixed;
+//   left: 0;
+//   top: 0;
+//   // z-index: 1;
+//   overflow: hidden;
+//   background: rgba(255, 255, 255, .4);
+//   backdrop-filter: blur(10px);
+// }
 
 .ccm-con {
   --ccm-parallax-x: 0px;

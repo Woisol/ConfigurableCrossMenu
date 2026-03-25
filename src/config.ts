@@ -50,6 +50,7 @@ export interface CCMConfig {
       centerColor?: CSSColor,
       opacity?: number
       blur?: number,
+      fullScreenBlur?: boolean,
     }
     center: CenterStyle,
     menu: {
@@ -72,21 +73,22 @@ export interface CCMConfig {
 
 
 
-const defaultConfig = {
+const defaultConfig: CCMConfig = {
   container: "#ccm-con",
   startingDirections: 'up',
   style: {
     width: 200,
-    radius: 50,
+    // radius: 50,
     background: {
       menuColor: { light: 'hsl(0, 0%, 93%)', dark: 'hsl(0, 0%, 30%)' },
       // ~~现在不需要注意了 | 注意，如果需要 blur 效果，必须在背景色中使用 alpha 通道（如 rgba 或 hsla），下方的 opacity 为整个元素的透明度与 blur 无关
       centerColor: { light: 'hsl(0, 0%, 100%)', dark: 'hsl(0, 0%, 50%)' },
       opacity: 0.5,
       blur: 3,
+      fullScreenBlur: true,
     },
     center: {
-      title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: '5%' },
+      title: { content: 'CCM', size: 16, color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' } },
       subtitle: { content: 'Configurable Cross Menu', size: 12, color: { light: 'hsl(0, 0%, 50%)', dark: 'hsl(0, 0%, 80%)' } },
       //TODO color 没有实现
       style: { direction: 'column', color: { light: 'hsl(0, 0%, 20%)', dark: 'hsl(0, 0%, 90%)' }, radius: 20, parallaxEffect: true }, // borderSize: 2, borderColor: 'hsl(0, 0%, 80%)',
@@ -108,7 +110,7 @@ const defaultConfig = {
   },
   // items: [],
   keyBindings: {}
-} as CCMConfig;
+};
 
 // export function mergeConfig(config: Partial<CCMConfig>): CCMConfig;
 // export function mergeConfig(config: Partial<CCMConfig>, origin: CCMConfig): CCMConfig;
