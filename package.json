@@ -1,6 +1,6 @@
 {
   "name": "@woisol-g/configurable-cross-menu",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A highly configurable animated cross menu for web pages.",
   "main": "dist/configurable-cross-menu.js",
   "types": "dist/index.d.ts",
